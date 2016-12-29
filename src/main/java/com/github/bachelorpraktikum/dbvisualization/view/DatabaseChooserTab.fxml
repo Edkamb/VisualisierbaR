@@ -24,7 +24,6 @@
         <Label fx:id="uriError" text="%uri_error" BorderPane.alignment="CENTER" textFill="#ff0000"
             visible="False"/>
     </bottom>
-
     <padding>
         <Insets bottom="6.0" left="6.0" right="6.0" top="6.0"/>
     </padding>
