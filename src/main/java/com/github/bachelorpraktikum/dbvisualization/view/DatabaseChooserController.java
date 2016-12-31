@@ -15,7 +15,7 @@ import javax.annotation.Nullable;
 public class DatabaseChooserController implements SourceChooser {
 
     @FXML
-    public BorderPane rootPane;
+    public BorderPane rootPaneDatabase;
     @FXML
     public TextField uriField;
     @FXML
@@ -68,7 +68,7 @@ public class DatabaseChooserController implements SourceChooser {
     @Nonnull
     @Override
     public String getRootPaneId() {
-        return rootPane.getId();
+        return rootPaneDatabase.getId();
     }
 
     /**
