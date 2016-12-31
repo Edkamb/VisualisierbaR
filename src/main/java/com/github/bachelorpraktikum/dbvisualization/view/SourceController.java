@@ -50,6 +50,7 @@ public class SourceController implements SourceChooser {
 
         controllers = new LinkedList<>();
         controllers.add(fileChooserTabController);
+        controllers.add(databaseChooserTabController);
 
         fireOnEnterPress(openSource);
         fireOnEnterPress(closeWindowButton);
