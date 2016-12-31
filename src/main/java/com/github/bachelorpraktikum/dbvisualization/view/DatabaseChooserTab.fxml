@@ -11,10 +11,15 @@
     <center>
         <BorderPane>
             <top>
+<<<<<<< 863ef76f6147f3ced22938277ac970e60524cc13
                 <TextField fx:id="ipField" accessibleText="127.0.0.1"
                     maxWidth="1.7976931348623157E308"
                     prefWidth="300"
                     BorderPane.alignment="CENTER">
+=======
+                <TextField fx:id="ipField" promptText="e.g. 127.0.0.1" maxWidth="1.7976931348623157E308" prefWidth="300"
+                           BorderPane.alignment="CENTER">
+>>>>>>> Mark placeholder text as example
                     <BorderPane.margin>
                         <Insets left="6.0" bottom="6.0"/>
                     </BorderPane.margin>
