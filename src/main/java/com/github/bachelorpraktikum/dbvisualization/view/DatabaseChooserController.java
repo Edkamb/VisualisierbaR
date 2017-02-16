@@ -1,13 +1,14 @@
 package com.github.bachelorpraktikum.dbvisualization.view;
 
 import com.github.bachelorpraktikum.dbvisualization.DataSource;
+import com.github.bachelorpraktikum.dbvisualization.config.ConfigFile;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ResourceBundle;
 import java.util.logging.Logger;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
@@ -36,13 +37,7 @@ public class DatabaseChooserController implements SourceChooser {
         databaseURIProperty = new ReadOnlyObjectWrapper<>();
         databaseNameProperty = new ReadOnlyObjectWrapper<>();
         portProperty = new ReadOnlyObjectWrapper<>();
-        databaseURIProperty.set(URI.create(ipField.getText()));
-        databaseNameProperty.set(databaseNameField.getText());
-        try {
-            portProperty.set(Integer.valueOf(portField.getText()));
-        } catch (NumberFormatException ignored) {
-
-        }
+        loadInitialValues();
 
         ipField.textProperty().addListener((o, oldValue, newValue) -> {
             if (newValue == null || newValue.trim().isEmpty()) {
@@ -84,16 +79,38 @@ public class DatabaseChooserController implements SourceChooser {
         });
     }
 
+    private void loadInitialValues() {
+        String configKey = getInitialDirKey();
+        String uriString = (String) ConfigFile.getInstance().getOrDefault(configKey, "");
+        if (!uriString.isEmpty()) {
+            try {
+                URI uri = URI.create(uriString);
+                ipField.setText(String.format("%s://%s", uri.getScheme(), uri.getHost()));
+                portField.setText(String.valueOf(uri.getPort()));
+                databaseNameField.setText(uri.getPath().substring(1));
+            } catch (IllegalArgumentException e) {
+                String message = String.format("URI from config isn't valid:\n%s", e);
+                Logger.getLogger(getClass().getName()).info(message);
+            }
+        }
+    }
+
+    private String getInitialDirKey() {
+        String logFileKey = ResourceBundle.getBundle("config_keys")
+            .getString("initialDirectoryKey");
+        return String.format(logFileKey, getResourceType().toString());
+    }
+
     private void check() {
         if (databaseURIProperty.get() != null
-                && databaseNameProperty.get() != null
-                && portProperty.get() != null) {
+            && databaseNameProperty.get() != null
+            && portProperty.get() != null) {
             enableOpen();
         }
     }
 
     private void enableOpen() {
-        ((Button) rootPaneDatabase.getScene().lookup("#openSource")).setDisable(false);
+        rootPaneDatabase.getScene().lookup("#openSource").setDisable(false);
     }
 
     /**
