@@ -15,11 +15,15 @@ import javax.annotation.Nullable;
 public class DatabaseChooserController implements SourceChooser {
 
     @FXML
-    public BorderPane rootPaneDatabase;
+    private BorderPane rootPaneDatabase;
     @FXML
-    public TextField uriField;
+    private TextField ipField;
     @FXML
     public Label uriError;
+    @FXML
+    private TextField databaseNameField;
+    @FXML
+    private TextField portField;
 
     private ReadOnlyObjectWrapper<URI> databaseURIProperty;
 
@@ -27,7 +31,7 @@ public class DatabaseChooserController implements SourceChooser {
     public void initialize() {
         databaseURIProperty = new ReadOnlyObjectWrapper<>();
 
-        uriField.textProperty().addListener((o, oldValue, newValue) -> {
+        ipField.textProperty().addListener((o, oldValue, newValue) -> {
             if (newValue == null || newValue.trim().isEmpty()) {
                 databaseURIProperty.set(null);
                 return;
@@ -82,6 +86,6 @@ public class DatabaseChooserController implements SourceChooser {
 
     @Override
     public void setInitialURI(URI initialURI) {
-        uriField.setText(initialURI.getPath());
+        ipField.setText(initialURI.getPath());
     }
 }
