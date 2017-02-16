@@ -35,10 +35,8 @@ public class Database implements AutoCloseable {
         connection = new HikariDataSource(config);
     }
 
-    public boolean testConnection() throws SQLException {
+    public void testConnection() throws SQLException {
         connection.getConnection().getClientInfo();
-
-        return true;
     }
 
     @Override
