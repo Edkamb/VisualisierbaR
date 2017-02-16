@@ -202,7 +202,7 @@ public class SourceController implements SourceChooser {
         if (getResourceType() == Type.LOG_FILE) {
             path = new File(getResourceURI()).getParent();
         } else if (getResourceType() == Type.DATABASE) {
-            path = getResourceURI().getPath();
+            path = getResourceURI().toString();
         } else {
             path = "";
         }
