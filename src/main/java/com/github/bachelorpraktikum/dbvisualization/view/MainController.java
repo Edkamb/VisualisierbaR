@@ -18,6 +18,7 @@ import com.github.bachelorpraktikum.dbvisualization.view.graph.adapter.SimpleCoo
 import com.github.bachelorpraktikum.dbvisualization.view.legend.LegendItem;
 import com.github.bachelorpraktikum.dbvisualization.view.legend.LegendListViewCell;
 import com.github.bachelorpraktikum.dbvisualization.view.train.TrainView;
+import com.zaxxer.hikari.pool.HikariPool.PoolInitializationException;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -245,7 +246,8 @@ public class MainController {
                 if (!autoChange) {
                     simulationTime.set(newValue.getTime());
                 }
-                Element.in(ContextHolder.getInstance().getContext()).setTime(newValue.getTime());
+                Element.in(ContextHolder.getInstance().getContext())
+                    .setTime(newValue.getTime());
             });
 
         timeText.setOnAction(event -> {
@@ -638,7 +640,7 @@ public class MainController {
                 try {
                     db = new Database(source.getUri());
                     db.testConnection();
-                } catch (SQLException e) {
+                } catch (SQLException | PoolInitializationException e) {
                     if (e.getMessage().contains("ACCESS_DENIED")) {
                         showLoginWindow();
                     } else {
@@ -646,6 +648,8 @@ public class MainController {
                             "Couldn't connect to database due to following error: " + e;
                         Logger.getLogger(getClass().getName()).severe(message);
                     }
+
+                    showSourceChooser();
                 }
             default:
                 return;
@@ -675,7 +679,8 @@ public class MainController {
                     ObservableValue<LegendItem.State> state = legendStates
                         .get(GraphObject.element(element.getType()));
                     Binding<Boolean> binding = Bindings
-                        .createBooleanBinding(() -> state.getValue() != LegendItem.State.DISABLED,
+                        .createBooleanBinding(
+                            () -> state.getValue() != LegendItem.State.DISABLED,
                             state);
                     context.addObject(binding);
                     entry.getValue().getShape().visibleProperty().bind(binding);
