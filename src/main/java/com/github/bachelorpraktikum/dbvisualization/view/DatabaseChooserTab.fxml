@@ -43,13 +43,13 @@
     <left>
         <BorderPane>
             <top>
-                <Label minWidth="-Infinity" text="%choose_ip"/>
+                <Label text="%choose_ip"/>
             </top>
             <center>
-                <Label minWidth="-Infinity" text="%choose_database"/>
+                <Label text="%choose_database"/>
             </center>
             <bottom>
-                <Label minWidth="-Infinity" text="%choose_port"/>
+                <Label text="%choose_port"/>
             </bottom>
         </BorderPane>
     </left>
