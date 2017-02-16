@@ -1,22 +1,20 @@
 package com.github.bachelorpraktikum.dbvisualization.view;
 
+import com.github.bachelorpraktikum.dbvisualization.config.ConfigFile;
+import java.util.ResourceBundle;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-
 import javax.annotation.Nonnull;
-import java.io.IOException;
-import java.util.ResourceBundle;
 
 public class LoginController {
+
     @FXML
     private Button openButton;
     @FXML
@@ -26,7 +24,6 @@ public class LoginController {
     @FXML
     private PasswordField passwordField;
 
-    private Stage stage;
     private ObjectProperty<String> userProperty;
     private ObjectProperty<String> passwordProperty;
 
@@ -48,6 +45,9 @@ public class LoginController {
                 openButton.setDisable(false);
             }
         });
+        openButton.setOnAction(event -> {
+            putCredentials();
+        });
     }
 
     @Nonnull
@@ -60,13 +60,20 @@ public class LoginController {
         return userProperty.getValue();
     }
 
-
     void setStage(Stage stage) {
-        this.stage = stage;
-
         Scene scene = new Scene(rootPane);
         stage.setScene(scene);
 
         stage.centerOnScreen();
     }
+
+    private void putCredentials() {
+        ConfigFile instance = ConfigFile.getInstance();
+        String userKey = ResourceBundle.getBundle("config_keys").getString("databaseUserKey");
+        String passwordKey = ResourceBundle.getBundle("config_keys")
+            .getString("databasePasswordKey");
+        instance.put(userKey, getUser());
+        instance.put(passwordKey, getPassword());
+    }
+
 }
