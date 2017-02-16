@@ -1,16 +1,27 @@
 package com.github.bachelorpraktikum.dbvisualization.database;
 
+import com.github.bachelorpraktikum.dbvisualization.config.ConfigFile;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
-
 import java.net.URI;
 import java.sql.SQLException;
+import java.util.ResourceBundle;
 
 public class Database implements AutoCloseable {
+
     private HikariDataSource connection;
 
     public Database(URI uri) {
-        new Database(uri, new DatabaseUser("", ""));
+        ConfigFile cfg = ConfigFile.getInstance();
+
+        String userKey = ResourceBundle.getBundle("config_keys").getString("databaseUserKey");
+        String passwordKey = ResourceBundle.getBundle("config_keys")
+            .getString("databasePasswordKey");
+
+        DatabaseUser user = new DatabaseUser((String) cfg.getOrDefault(userKey, ""),
+            (String) cfg.getOrDefault(passwordKey, ""));
+
+        new Database(uri, user);
     }
 
     public Database(URI uri, DatabaseUser user) {
