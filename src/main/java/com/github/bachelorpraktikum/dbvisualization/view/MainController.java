@@ -26,6 +26,7 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.WeakHashMap;
 import java.util.function.Predicate;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -641,7 +642,9 @@ public class MainController {
                     if (e.getMessage().contains("ACCESS_DENIED")) {
                         showLoginWindow();
                     } else {
-                        System.out.println(e.getMessage());
+                        String message =
+                            "Couldn't connect to database due to following error: " + e;
+                        Logger.getLogger(getClass().getName()).severe(message);
                     }
                 }
             default:
