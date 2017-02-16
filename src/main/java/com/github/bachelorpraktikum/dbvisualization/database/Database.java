@@ -3,6 +3,7 @@ package com.github.bachelorpraktikum.dbvisualization.database;
 import com.github.bachelorpraktikum.dbvisualization.config.ConfigFile;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import com.zaxxer.hikari.pool.HikariPool.PoolInitializationException;
 import java.net.URI;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
@@ -16,10 +17,10 @@ public class Database implements AutoCloseable {
 
         String userKey = ResourceBundle.getBundle("config_keys").getString("databaseUserKey");
         String passwordKey = ResourceBundle.getBundle("config_keys")
-            .getString("databasePasswordKey");
+                .getString("databasePasswordKey");
 
         DatabaseUser user = new DatabaseUser((String) cfg.getOrDefault(userKey, ""),
-            (String) cfg.getOrDefault(passwordKey, ""));
+                (String) cfg.getOrDefault(passwordKey, ""));
 
         new Database(uri, user);
     }
@@ -32,6 +33,11 @@ public class Database implements AutoCloseable {
         config.addDataSourceProperty("cachePrepStmts", "true");
         config.addDataSourceProperty("prepStmtCacheSize", "250");
         config.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");
+
+        establishConnection(config);
+    }
+
+    private void establishConnection(HikariConfig config) throws PoolInitializationException {
         connection = new HikariDataSource(config);
     }
 
