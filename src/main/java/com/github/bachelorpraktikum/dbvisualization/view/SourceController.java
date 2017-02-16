@@ -1,6 +1,7 @@
 package com.github.bachelorpraktikum.dbvisualization.view;
 
 import com.github.bachelorpraktikum.dbvisualization.DataSource;
+import com.github.bachelorpraktikum.dbvisualization.DataSource.Type;
 import com.github.bachelorpraktikum.dbvisualization.config.ConfigFile;
 import java.io.File;
 import java.io.IOException;
@@ -191,9 +192,21 @@ public class SourceController implements SourceChooser {
         controller.setStage(stage);
         controller.setDataSource(new DataSource(getResourceType(), getResourceURI()));
 
+        savePath();
+    }
+
+    private void savePath() {
         String initialDirKey = String.format(geInitialDirKey(), getResourceType().toString());
-        String parentFolder = new File(getResourceURI()).getParent();
-        ConfigFile.getInstance().put(initialDirKey, parentFolder);
+        String path;
+
+        if (getResourceType() == Type.LOG_FILE) {
+            path = new File(getResourceURI()).getParent();
+        } else if (getResourceType() == Type.DATABASE) {
+            path = getResourceURI().getPath();
+        } else {
+            path = "";
+        }
+        ConfigFile.getInstance().put(initialDirKey, path);
     }
 
     private String geInitialDirKey() {
