@@ -7,7 +7,8 @@ import java.sql.SQLException;
 
 public class Database implements AutoCloseable {
 
-    private HikariDataSource connection;
+    private HikariDataSource dataSource;
+    private final int CONNECTION_TIMEOUT = 1000;
 
     public Database(URI uri) {
         new Database(uri, new DatabaseUser("", ""));
@@ -21,17 +22,15 @@ public class Database implements AutoCloseable {
         config.addDataSourceProperty("cachePrepStmts", "true");
         config.addDataSourceProperty("prepStmtCacheSize", "250");
         config.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");
-        connection = new HikariDataSource(config);
+        dataSource = new HikariDataSource(config);
     }
 
     public boolean testConnection() throws SQLException {
-        connection.getConnection().getClientInfo();
-
-        return true;
+        return dataSource.getConnection().isValid(CONNECTION_TIMEOUT);
     }
 
     @Override
     public void close() throws Exception {
-        connection.close();
+        dataSource.close();
     }
 }
