@@ -14,7 +14,9 @@ public enum ConfigKey {
     initialRestDirectory("rest_initialDirectory"),
     initialRestExecutable("rest_initialExecutable"),
     initialDatabasePort("database_initialPort"),
-    initialDatabaseName("database_initialName");
+    initialDatabaseName("database_initialName"),
+    databaseUsername("database_username"),
+    databasePassword("database_password");
 
     private final String key;
 
