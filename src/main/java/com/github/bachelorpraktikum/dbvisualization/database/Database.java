@@ -3,7 +3,9 @@ package com.github.bachelorpraktikum.dbvisualization.database;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import java.net.URI;
+import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.Optional;
 
 public class Database implements AutoCloseable {
 
@@ -15,10 +17,16 @@ public class Database implements AutoCloseable {
     }
 
     public Database(URI uri, DatabaseUser user) {
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
         HikariConfig config = new HikariConfig();
         config.setJdbcUrl(uri.toString().replace("http://", "jdbc:mysql://"));
         config.setUsername(user.getUser());
         config.setPassword(user.getPassword());
+
         config.addDataSourceProperty("cachePrepStmts", "true");
         config.addDataSourceProperty("prepStmtCacheSize", "250");
         config.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");
