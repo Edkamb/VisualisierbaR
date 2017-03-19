@@ -25,8 +25,22 @@ public class Database implements AutoCloseable {
         dataSource = new HikariDataSource(config);
     }
 
-    public boolean testConnection() throws SQLException {
-        return dataSource.getConnection().isValid(CONNECTION_TIMEOUT);
+    public boolean testConnection() {
+        try {
+            return dataSource.getConnection().isValid(CONNECTION_TIMEOUT);
+        } catch (SQLException ignored) {
+            return false;
+        }
+    }
+
+    public Optional<Connection> getConnection() {
+        try {
+            return Optional.of(dataSource.getConnection());
+        } catch (SQLException ignored) {
+
+        }
+
+        return Optional.empty();
     }
 
     @Override
