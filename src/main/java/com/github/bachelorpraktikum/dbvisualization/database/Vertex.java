@@ -5,24 +5,26 @@ import com.github.bachelorpraktikum.dbvisualization.model.Coordinates;
 public class Vertex implements ABSExportable {
 
     private final int id;
-    private final Betriebsstelle betriebsstelle;
+    private Betriebsstelle betriebsstelle;
+    private final int betriebsstelle_ID;
     private final int kennziffer;
     private final String name;
     private final double length;
     private final Direction direction;
-    private final DBEdge edge;
+    private DBEdge edge;
+    private final int edge_ID;
     private final Coordinates local;
     private final Coordinates global;
 
-    Vertex(int id, Betriebsstelle betriebsstelle, int kennziffer, String name, double length,
-        Direction direction, DBEdge edge, Coordinates local, Coordinates global) {
+    Vertex(int id, int betriebsstelle_id, int kennziffer, String name, double length,
+        Direction direction, int edge_id, Coordinates local, Coordinates global) {
         this.id = id;
-        this.betriebsstelle = betriebsstelle;
+        betriebsstelle_ID = betriebsstelle_id;
         this.kennziffer = kennziffer;
         this.name = name;
         this.length = length;
         this.direction = direction;
-        this.edge = edge;
+        edge_ID = edge_id;
         this.local = local;
         this.global = global;
     }
@@ -31,8 +33,17 @@ public class Vertex implements ABSExportable {
         return id;
     }
 
+    // TODO
     public Betriebsstelle getBetriebsstelle() {
         return betriebsstelle;
+    }
+
+    public void setBetriebsstelle(Betriebsstelle bst) {
+        betriebsstelle = bst;
+    }
+
+    public int getBetriebsstelle_ID() {
+        return betriebsstelle_ID;
     }
 
     public int getKennziffer() {
@@ -51,8 +62,13 @@ public class Vertex implements ABSExportable {
         return direction;
     }
 
+    // TODO
     public DBEdge getEdge() {
         return edge;
+    }
+
+    public void setEdge(DBEdge edge) {
+        this.edge = edge;
     }
 
     public Coordinates getLocal() {
@@ -62,6 +78,11 @@ public class Vertex implements ABSExportable {
     public Coordinates getGlobal() {
         return global;
     }
+
+    public int getEdge_ID() {
+        return edge_ID;
+    }
+
     @Override
     public String export() {
         String absName = String.format("node_%d", id);
