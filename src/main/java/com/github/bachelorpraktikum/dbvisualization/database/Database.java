@@ -16,7 +16,7 @@ public class Database implements AutoCloseable {
 
     public Database(URI uri, DatabaseUser user) {
         HikariConfig config = new HikariConfig();
-        config.setJdbcUrl("jdbc:mysql://" + uri.toString());
+        config.setJdbcUrl(uri.toString().replace("http://", "jdbc:mysql://"));
         config.setUsername(user.getUser());
         config.setPassword(user.getPassword());
         config.addDataSourceProperty("cachePrepStmts", "true");
