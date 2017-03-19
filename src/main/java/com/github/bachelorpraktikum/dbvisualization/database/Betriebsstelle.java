@@ -1,6 +1,6 @@
 package com.github.bachelorpraktikum.dbvisualization.database;
 
-public class Betriebsstelle {
+public class Betriebsstelle implements ABSExportable {
 
     private final int id;
     private final String title;
@@ -41,5 +41,10 @@ public class Betriebsstelle {
 
     public int getKennziffer() {
         return kennziffer;
+    }
+
+    @Override
+    public String export() {
+        return null;
     }
 }

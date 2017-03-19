@@ -2,7 +2,7 @@ package com.github.bachelorpraktikum.dbvisualization.database;
 
 import com.github.bachelorpraktikum.dbvisualization.model.Coordinates;
 
-public class Vertex {
+public class Vertex implements ABSExportable {
 
     private final int id;
     private final Betriebsstelle betriebsstelle;
@@ -61,5 +61,11 @@ public class Vertex {
 
     public Coordinates getGlobal() {
         return global;
+    }
+    @Override
+    public String export() {
+        String absName = String.format("node_%d", id);
+        String formatableString = "Node %s = new local NodeImpl(%d,%d);";
+        return String.format(formatableString, absName, local.getX(), local.getY());
     }
 }

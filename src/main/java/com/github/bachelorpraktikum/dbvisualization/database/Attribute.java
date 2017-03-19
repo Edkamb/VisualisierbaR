@@ -1,6 +1,6 @@
 package com.github.bachelorpraktikum.dbvisualization.database;
 
-public class Attribute {
+public class Attribute extends DBTable implements ABSExportable {
 
     private final int id;
     private final String title;
@@ -28,5 +28,10 @@ public class Attribute {
 
     public String getAcronym() {
         return acronym;
+    }
+
+    @Override
+    public String export() {
+        return null;
     }
 }

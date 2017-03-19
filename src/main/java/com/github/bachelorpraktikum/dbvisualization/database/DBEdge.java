@@ -1,6 +1,6 @@
 package com.github.bachelorpraktikum.dbvisualization.database;
 
-public class DBEdge {
+public class DBEdge implements ABSExportable {
 
     private final int id;
     private final Vertex from;
@@ -29,5 +29,15 @@ public class DBEdge {
 
     public int getWayNumber() {
         return wayNumber;
+    }
+
+    @Override
+    public String export() {
+        // ABSName, NodeToName, NodeFromName, Length
+        String formattableString = "Edge %s = new local EdgeImpl(%s,%s,%d);";
+        String absName = String.format("edge_%d", id);
+        String exportString = String
+            .format(formattableString, absName, from.getId(), to.getId(), getLength());
+        return String.format("Edge %s = new local EdgeImpl(%s,%s,%d);");
     }
 }
