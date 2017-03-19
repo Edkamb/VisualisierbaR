@@ -22,7 +22,7 @@ public class DatabaseUser {
         return password;
     }
 
-    static Optional<DatabaseUser> fromConfig() {
+    public static Optional<DatabaseUser> fromConfig() {
         String userKey = ConfigKey.databaseUsername.getKey();
         String passKey = ConfigKey.databasePassword.getKey();
 
