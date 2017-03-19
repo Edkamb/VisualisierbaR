@@ -6,13 +6,15 @@ public class DBEdge implements ABSExportable {
     private final Vertex from;
     private final Vertex to;
     private final int wayNumber;
+    private int length;
 
     public DBEdge(int id, Vertex from,
-        Vertex to, int wayNumber) {
+        Vertex to, int wayNumber, int length) {
         this.id = id;
         this.from = from;
         this.to = to;
         this.wayNumber = wayNumber;
+        this.length = length;
     }
 
     public int getId() {
@@ -25,6 +27,14 @@ public class DBEdge implements ABSExportable {
 
     public Vertex getTo() {
         return to;
+    }
+
+    public int getLength() {
+        return length;
+    }
+
+    public void setLength(int length) {
+        this.length = length;
     }
 
     public int getWayNumber() {
