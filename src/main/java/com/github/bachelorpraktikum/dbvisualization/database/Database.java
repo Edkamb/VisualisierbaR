@@ -4,7 +4,10 @@ import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import java.net.URI;
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Optional;
 
 public class Database implements AutoCloseable {
@@ -49,6 +52,21 @@ public class Database implements AutoCloseable {
         }
 
         return Optional.empty();
+    }
+
+    public List<Vertex> getVertices() {
+        List<Vertex> vertices = new LinkedList<>();
+        try {
+            DBTable verticesTable = new DBTable(getConnection().get(), Tables.VERTICES);
+            ResultSet rs = verticesTable.select();
+            while (rs.next()) {
+                vertices.add(new Vertex(rs));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return vertices;
     }
 
     @Override
