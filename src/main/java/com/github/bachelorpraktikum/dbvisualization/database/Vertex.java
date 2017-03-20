@@ -1,6 +1,9 @@
 package com.github.bachelorpraktikum.dbvisualization.database;
 
 import com.github.bachelorpraktikum.dbvisualization.model.Coordinates;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Iterator;
 
 public class Vertex implements ABSExportable {
 
@@ -27,6 +30,24 @@ public class Vertex implements ABSExportable {
         edge_ID = edge_id;
         this.local = local;
         this.global = global;
+    }
+
+    Vertex(ResultSet rs) throws SQLException {
+        Iterator<String> columnNames = Tables.VERTICES.getColumnNames().iterator();
+        id = rs.getInt(columnNames.next());
+        betriebsstelle_ID = rs.getInt(columnNames.next());
+        kennziffer = rs.getInt(columnNames.next());
+        name = rs.getString(columnNames.next());
+        length = rs.getDouble(columnNames.next());
+        int direction_index = rs.getInt(columnNames.next());
+        direction = Direction.get(direction_index);
+        edge_ID = rs.getInt(columnNames.next());
+        int localX = rs.getInt(columnNames.next());
+        int localY = rs.getInt(columnNames.next());
+        local = new Coordinates(Math.max(localX, 0), Math.max(localY, 0));
+        int globalX = rs.getInt(columnNames.next());
+        int globalY = rs.getInt(columnNames.next());
+        global = new Coordinates(Math.max(globalX, 0), Math.max(globalY, 0));
     }
 
     public int getId() {
