@@ -66,7 +66,7 @@ public class Vertex implements ABSExportable {
         betriebsstelle = bst;
     }
 
-    public int getBetriebsstelle_ID() {
+    public int getBetriebsstelleID() {
         return betriebsstelle_ID;
     }
 
@@ -94,15 +94,15 @@ public class Vertex implements ABSExportable {
         this.edge = edge;
     }
 
-    public Coordinates getLocal() {
+    public Coordinates getLocalCoordinates() {
         return local;
     }
 
-    public Coordinates getGlobal() {
+    public Coordinates getGlobalCoordinates() {
         return global;
     }
 
-    public int getEdge_ID() {
+    public int getEdgeID() {
         return edge_ID;
     }
 
