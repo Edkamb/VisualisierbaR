@@ -45,9 +45,11 @@ public class Vertex implements ABSExportable {
         edge_ID = rs.getInt(columnNames.next());
         int localX = rs.getInt(columnNames.next());
         int localY = rs.getInt(columnNames.next());
+        // TODO
         local = new Coordinates(Math.max(localX, 0), Math.max(localY, 0));
         int globalX = rs.getInt(columnNames.next());
         int globalY = rs.getInt(columnNames.next());
+        // TODO
         global = new Coordinates(Math.max(globalX, 0), Math.max(globalY, 0));
     }
 
@@ -84,7 +86,6 @@ public class Vertex implements ABSExportable {
         return direction;
     }
 
-    // TODO
     public Optional<DBEdge> getEdge() {
         return Optional.ofNullable(edge);
     }
