@@ -13,7 +13,7 @@ public class Neighbors {
     private Betriebsstelle betriebsstelle;
     private final int betriebsstelleID;
 
-    public Neighbors(int id, DBEdge edge, Betriebsstelle betriebsstelle) {
+    Neighbors(int id, DBEdge edge, Betriebsstelle betriebsstelle) {
         this.id = id;
         this.edge = edge;
         edgeID = edge.getId();

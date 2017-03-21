@@ -15,7 +15,7 @@ public class DBEdge implements ABSExportable {
     private final int wayNumber;
     private int length;
 
-    public DBEdge(int id, Vertex from,
+    DBEdge(int id, Vertex from,
         Vertex to, int wayNumber, int length) {
         this.id = id;
         this.from = from;
@@ -26,7 +26,7 @@ public class DBEdge implements ABSExportable {
         this.length = length;
     }
 
-    public DBEdge(ResultSet rs) throws SQLException {
+    DBEdge(ResultSet rs) throws SQLException {
         Iterator<String> columnNames = Tables.EDGES.getColumnNames().iterator();
         id = rs.getInt(columnNames.next());
         fromID = rs.getInt(columnNames.next());

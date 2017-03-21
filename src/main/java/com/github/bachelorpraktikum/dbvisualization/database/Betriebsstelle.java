@@ -13,7 +13,7 @@ public class Betriebsstelle implements ABSExportable {
     private final int weatherID;
     private final int kennziffer;
 
-    public Betriebsstelle(int id, String title, String shortName, String rl100, int weatherID,
+    Betriebsstelle(int id, String title, String shortName, String rl100, int weatherID,
         int kennziffer) {
         this.id = id;
         this.title = title;
