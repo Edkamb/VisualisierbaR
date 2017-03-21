@@ -4,6 +4,7 @@ import com.github.bachelorpraktikum.dbvisualization.model.Coordinates;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Iterator;
+import java.util.Optional;
 
 public class Vertex implements ABSExportable {
 
@@ -55,8 +56,8 @@ public class Vertex implements ABSExportable {
     }
 
     // TODO
-    public Betriebsstelle getBetriebsstelle() {
-        return betriebsstelle;
+    public Optional<Betriebsstelle> getBetriebsstelle() {
+        return Optional.ofNullable(betriebsstelle);
     }
 
     public void setBetriebsstelle(Betriebsstelle bst) {
@@ -84,8 +85,8 @@ public class Vertex implements ABSExportable {
     }
 
     // TODO
-    public DBEdge getEdge() {
-        return edge;
+    public Optional<DBEdge> getEdge() {
+        return Optional.ofNullable(edge);
     }
 
     public void setEdge(DBEdge edge) {

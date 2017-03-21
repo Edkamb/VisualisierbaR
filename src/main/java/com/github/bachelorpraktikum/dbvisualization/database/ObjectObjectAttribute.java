@@ -1,11 +1,12 @@
 package com.github.bachelorpraktikum.dbvisualization.database;
 
+import java.util.Optional;
 public class ObjectObjectAttribute {
 
     private final int id;
-    private final Vertex object1;
-    private final Vertex object2;
-    private final Attribute attribute;
+    private Vertex object1;
+    private Vertex object2;
+    private Attribute attribute;
 
     public ObjectObjectAttribute(int id,
         Vertex object1, Vertex object2,
@@ -20,15 +21,19 @@ public class ObjectObjectAttribute {
         return id;
     }
 
-    public Vertex getObject1() {
-        return object1;
+    public Optional<Vertex> getObject1() {
+        return Optional.ofNullable(object1);
     }
 
-    public Vertex getObject2() {
-        return object2;
+    public Optional<Vertex> getObject2() {
+        return Optional.ofNullable(object2);
     }
 
-    public Attribute getAttribute() {
-        return attribute;
+    public Optional<Attribute> getAttribute() {
+        return Optional.ofNullable(attribute);
+    }
+
+    }
+
     }
 }

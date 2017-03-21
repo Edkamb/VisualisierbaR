@@ -1,10 +1,11 @@
 package com.github.bachelorpraktikum.dbvisualization.database;
 
+import java.util.Optional;
 public class DBEdge implements ABSExportable {
 
     private final int id;
-    private final Vertex from;
-    private final Vertex to;
+    private Vertex from;
+    private Vertex to;
     private final int wayNumber;
     private int length;
 
@@ -21,12 +22,12 @@ public class DBEdge implements ABSExportable {
         return id;
     }
 
-    public Vertex getFrom() {
-        return from;
+    public Optional<Vertex> getFrom() {
+        return Optional.ofNullable(from);
     }
 
-    public Vertex getTo() {
-        return to;
+    public Optional<Vertex> getTo() {
+        return Optional.ofNullable(to);
     }
 
     public int getLength() {

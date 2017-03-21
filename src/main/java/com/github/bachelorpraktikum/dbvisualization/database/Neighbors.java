@@ -1,10 +1,12 @@
 package com.github.bachelorpraktikum.dbvisualization.database;
 
+import java.util.Optional;
+
 public class Neighbors {
 
     private final int id;
-    private final DBEdge edge;
-    private final Betriebsstelle betriebsstelle;
+    private DBEdge edge;
+    private Betriebsstelle betriebsstelle;
 
     public Neighbors(int id, DBEdge edge, Betriebsstelle betriebsstelle) {
         this.id = id;
@@ -16,11 +18,14 @@ public class Neighbors {
         return id;
     }
 
-    public DBEdge getEdgeID() {
-        return edge;
+    public Optional<DBEdge> getEdge() {
+        return Optional.ofNullable(edge);
     }
 
-    public Betriebsstelle getKennzifferBST() {
-        return betriebsstelle;
+    public Optional<Betriebsstelle> getBetriebsstelle() {
+        return Optional.ofNullable(betriebsstelle);
+    }
+    }
+
     }
 }
