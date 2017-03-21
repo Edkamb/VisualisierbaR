@@ -65,7 +65,7 @@ public class DBEdge implements ABSExportable {
         String absName = String.format("edge_%d", id);
         String exportString = String
             .format(formattableString, absName, from.getId(), to.getId(), getLength());
-        return String.format("Edge %s = new local EdgeImpl(%s,%s,%d);");
+        return exportString;
     }
 
     public int getFromID() {
