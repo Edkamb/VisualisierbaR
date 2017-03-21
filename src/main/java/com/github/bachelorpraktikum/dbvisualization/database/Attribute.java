@@ -11,7 +11,7 @@ public class Attribute extends DBTable implements ABSExportable {
     private final String description;
     private final String acronym;
 
-    Attribute(int id, String title, String description, String acronym) {
+    public Attribute(int id, String title, String description, String acronym) {
         this.id = id;
         this.title = title;
         this.description = description;

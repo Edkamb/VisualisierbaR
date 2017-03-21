@@ -15,7 +15,7 @@ public class ObjectAttribute {
     private final int attributeID;
     private final String value;
 
-    ObjectAttribute(int id, String type, Vertex object, Attribute attribute,
+    public ObjectAttribute(int id, String type, Vertex object, Attribute attribute,
         String value) {
         this.id = id;
         this.type = type;
