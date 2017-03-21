@@ -2,6 +2,8 @@ package com.github.bachelorpraktikum.dbvisualization.database;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -54,19 +56,49 @@ public class Database implements AutoCloseable {
         return Optional.empty();
     }
 
+    public List<Neighbors> getNeighbors() {
+        return getTableElements(Tables.NEIGHBORS, Neighbors.class);
+    }
+
+    public List<Attribute> getAttributes() {
+        return getTableElements(Tables.ATTRIBUTES, Attribute.class);
+    }
+
+    public List<Betriebsstelle> getBetriebsstellen() {
+        return getTableElements(Tables.BETRIEBSSTELLEN, Betriebsstelle.class);
+    }
+
+    public List<ObjectAttribute> getObjectAttributes() {
+        return getTableElements(Tables.OBJECT_ATTRIBUTES, ObjectAttribute.class);
+    }
+
+    public List<ObjectObjectAttribute> getObjectObjectAtributes() {
+        return getTableElements(Tables.OBJECT_OBJECT_ATTRIBUTES, ObjectObjectAttribute.class);
+    }
+
     public List<Vertex> getVertices() {
-        List<Vertex> vertices = new LinkedList<>();
+        return getTableElements(Tables.VERTICES, Vertex.class);
+    }
+
+    public List<DBEdge> getEdges() {
+        return getTableElements(Tables.EDGES, DBEdge.class);
+    }
+
+    private <T> List<T> getTableElements(Tables table, Class<T> clazz) {
+        List<T> elements = new LinkedList<>();
         try {
-            DBTable verticesTable = new DBTable(getConnection().get(), Tables.VERTICES);
-            ResultSet rs = verticesTable.select();
+            DBTable tTable = new DBTable(getConnection().get(), table);
+            ResultSet rs = tTable.select();
             while (rs.next()) {
-                vertices.add(new Vertex(rs));
+                Constructor<T> construct = clazz.getConstructor(ResultSet.class);
+                T element = construct.newInstance(rs);
+                elements.add(element);
             }
-        } catch (SQLException e) {
+        } catch (SQLException | NoSuchMethodException | InvocationTargetException | IllegalAccessException | InstantiationException e) {
             e.printStackTrace();
         }
 
-        return vertices;
+        return elements;
     }
 
     @Override
