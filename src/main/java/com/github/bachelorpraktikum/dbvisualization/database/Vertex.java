@@ -33,7 +33,7 @@ public class Vertex implements ABSExportable {
         this.global = global;
     }
 
-    Vertex(ResultSet rs) throws SQLException {
+    public Vertex(ResultSet rs) throws SQLException {
         Iterator<String> columnNames = Tables.VERTICES.getColumnNames().iterator();
         id = rs.getInt(columnNames.next());
         betriebsstelle_ID = rs.getInt(columnNames.next());
