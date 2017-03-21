@@ -26,7 +26,7 @@ public enum Tables {
         "ID", "vertex_ID_from", "vertex_ID_to", "wayNumber"
     }),
 
-    OBJECTS_ATTRIBUTES("objects_attributes", new String[]{
+    OBJECT_ATTRIBUTES("objects_attributes", new String[]{
         "ID", "type", "object_ID", "attribute_ID", "value"
     }),
 

@@ -27,7 +27,7 @@ public class ObjectAttribute {
     }
 
     ObjectAttribute(ResultSet rs) throws SQLException {
-        Iterator<String> columnNames = Tables.OBJECTS_ATTRIBUTES.getColumnNames().iterator();
+        Iterator<String> columnNames = Tables.OBJECT_ATTRIBUTES.getColumnNames().iterator();
         id = rs.getInt(columnNames.next());
         type = rs.getString(columnNames.next());
         objectID = rs.getInt(columnNames.next());
