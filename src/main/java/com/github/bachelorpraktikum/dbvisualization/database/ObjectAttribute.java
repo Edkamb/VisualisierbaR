@@ -1,5 +1,8 @@
 package com.github.bachelorpraktikum.dbvisualization.database;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Iterator;
 import java.util.Optional;
 
 public class ObjectAttribute {
@@ -21,6 +24,15 @@ public class ObjectAttribute {
         this.attribute = attribute;
         attributeID = attribute.getId();
         this.value = value;
+    }
+
+    ObjectAttribute(ResultSet rs) throws SQLException {
+        Iterator<String> columnNames = Tables.OBJECTS_ATTRIBUTES.getColumnNames().iterator();
+        id = rs.getInt(columnNames.next());
+        type = rs.getString(columnNames.next());
+        objectID = rs.getInt(columnNames.next());
+        attributeID = rs.getInt(columnNames.next());
+        value = rs.getString(columnNames.next());
     }
 
     public int getId() {

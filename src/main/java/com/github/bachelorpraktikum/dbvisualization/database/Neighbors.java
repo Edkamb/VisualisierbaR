@@ -1,5 +1,8 @@
 package com.github.bachelorpraktikum.dbvisualization.database;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Iterator;
 import java.util.Optional;
 
 public class Neighbors {
@@ -16,6 +19,13 @@ public class Neighbors {
         edgeID = edge.getId();
         this.betriebsstelle = betriebsstelle;
         betriebsstelleID = betriebsstelle.getId();
+    }
+
+    Neighbors(ResultSet rs) throws SQLException {
+        Iterator<String> columnNames = Tables.NEIGHBORS.getColumnNames().iterator();
+        id = rs.getInt(columnNames.next());
+        edgeID = rs.getInt(columnNames.next());
+        betriebsstelleID = rs.getInt(columnNames.next());
     }
 
     public int getId() {

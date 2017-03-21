@@ -1,5 +1,9 @@
 package com.github.bachelorpraktikum.dbvisualization.database;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Iterator;
+
 public class Betriebsstelle implements ABSExportable {
 
     private final int id;
@@ -17,6 +21,16 @@ public class Betriebsstelle implements ABSExportable {
         this.rl100 = rl100;
         this.weatherID = weatherID;
         this.kennziffer = kennziffer;
+    }
+
+    Betriebsstelle(ResultSet rs) throws SQLException {
+        Iterator<String> columnNames = Tables.BETRIEBSSTELLEN.getColumnNames().iterator();
+        id = rs.getInt(columnNames.next());
+        title = rs.getString(columnNames.next());
+        shortName = rs.getString(columnNames.next());
+        rl100 = rs.getString(columnNames.next());
+        weatherID = rs.getInt(columnNames.next());
+        kennziffer = rs.getInt(columnNames.next());
     }
 
     public int getId() {

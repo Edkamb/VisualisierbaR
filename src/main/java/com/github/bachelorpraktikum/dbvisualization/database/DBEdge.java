@@ -1,5 +1,8 @@
 package com.github.bachelorpraktikum.dbvisualization.database;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Iterator;
 import java.util.Optional;
 
 public class DBEdge implements ABSExportable {
@@ -21,6 +24,14 @@ public class DBEdge implements ABSExportable {
         toID = to.getId();
         this.wayNumber = wayNumber;
         this.length = length;
+    }
+
+    public DBEdge(ResultSet rs) throws SQLException {
+        Iterator<String> columnNames = Tables.EDGES.getColumnNames().iterator();
+        id = rs.getInt(columnNames.next());
+        fromID = rs.getInt(columnNames.next());
+        toID = rs.getInt(columnNames.next());
+        wayNumber = rs.getInt(columnNames.next());
     }
 
     public int getId() {
