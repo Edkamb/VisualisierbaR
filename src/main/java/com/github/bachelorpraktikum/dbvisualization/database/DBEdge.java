@@ -1,11 +1,14 @@
 package com.github.bachelorpraktikum.dbvisualization.database;
 
 import java.util.Optional;
+
 public class DBEdge implements ABSExportable {
 
     private final int id;
     private Vertex from;
+    private final int fromID;
     private Vertex to;
+    private final int toID;
     private final int wayNumber;
     private int length;
 
@@ -13,7 +16,9 @@ public class DBEdge implements ABSExportable {
         Vertex to, int wayNumber, int length) {
         this.id = id;
         this.from = from;
+        fromID = from.getId();
         this.to = to;
+        toID = to.getId();
         this.wayNumber = wayNumber;
         this.length = length;
     }
@@ -50,5 +55,13 @@ public class DBEdge implements ABSExportable {
         String exportString = String
             .format(formattableString, absName, from.getId(), to.getId(), getLength());
         return String.format("Edge %s = new local EdgeImpl(%s,%s,%d);");
+    }
+
+    public int getFromID() {
+        return fromID;
+    }
+
+    public int getToID() {
+        return toID;
     }
 }

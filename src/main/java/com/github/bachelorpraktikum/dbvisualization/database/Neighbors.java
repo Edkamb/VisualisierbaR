@@ -6,12 +6,16 @@ public class Neighbors {
 
     private final int id;
     private DBEdge edge;
+    private final int edgeID;
     private Betriebsstelle betriebsstelle;
+    private final int betriebsstelleID;
 
     public Neighbors(int id, DBEdge edge, Betriebsstelle betriebsstelle) {
         this.id = id;
         this.edge = edge;
+        edgeID = edge.getId();
         this.betriebsstelle = betriebsstelle;
+        betriebsstelleID = betriebsstelle.getId();
     }
 
     public int getId() {
@@ -25,7 +29,12 @@ public class Neighbors {
     public Optional<Betriebsstelle> getBetriebsstelle() {
         return Optional.ofNullable(betriebsstelle);
     }
+
+    public int getEdgeID() {
+        return edgeID;
     }
 
+    public int getBetriebsstelleID() {
+        return betriebsstelleID;
     }
 }

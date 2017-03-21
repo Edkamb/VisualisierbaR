@@ -7,7 +7,9 @@ public class ObjectAttribute {
     private final int id;
     private final String type;
     private Vertex object;
+    private final int objectID;
     private Attribute attribute;
+    private final int attributeID;
     private final String value;
 
     public ObjectAttribute(int id, String type, Vertex object, Attribute attribute,
@@ -15,7 +17,9 @@ public class ObjectAttribute {
         this.id = id;
         this.type = type;
         this.object = object;
+        objectID = object.getId();
         this.attribute = attribute;
+        attributeID = attribute.getId();
         this.value = value;
     }
 
@@ -31,10 +35,16 @@ public class ObjectAttribute {
         return Optional.ofNullable(object);
     }
 
+    public int getVertexID() {
+        return objectID;
+    }
+
     public Optional<Attribute> getAttribute() {
         return Optional.ofNullable(attribute);
     }
 
+    public int getAttributeID() {
+        return attributeID;
     }
 
     public String getValue() {
