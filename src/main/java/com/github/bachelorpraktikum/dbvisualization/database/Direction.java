@@ -1,7 +1,5 @@
 package com.github.bachelorpraktikum.dbvisualization.database;
 
-import sun.plugin.dom.exception.InvalidStateException;
-
 public enum Direction {
     None("None", 0),
     AscendingChainage("Ascending", 1),
@@ -26,7 +24,7 @@ public enum Direction {
 
     public static Direction get(int index) {
         if (index > Direction.values().length) {
-            throw new InvalidStateException(
+            throw new IllegalArgumentException(
                 "Index can't be larger than the length of the Direction enum.");
         }
 
