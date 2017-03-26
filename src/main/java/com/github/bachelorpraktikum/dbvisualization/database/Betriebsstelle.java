@@ -2,9 +2,15 @@ package com.github.bachelorpraktikum.dbvisualization.database;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
 
 public class Betriebsstelle implements ABSExportable {
+
+    private final String ZUGFOLGE_EXPORT = "[HTTPName: \"%s\"]ActiveZugFolge %<s = new ZugFolgeImpl(\"%<s\");";
+    private final String BAHNHOF_EXPORT = "[HTTPName: \"%s\"]ZugMelde %<s = new BahnhofImpl(\"%<s\");";
 
     private final int id;
     private final String title;
@@ -12,6 +18,8 @@ public class Betriebsstelle implements ABSExportable {
     private final String rl100;
     private final int weatherID;
     private final int kennziffer;
+    private Attribute attribute;
+    private Set<Vertex> vertices;
 
     public Betriebsstelle(int id, String title, String shortName, String rl100, int weatherID,
         int kennziffer) {
@@ -31,6 +39,15 @@ public class Betriebsstelle implements ABSExportable {
         rl100 = rs.getString(columnNames.next());
         weatherID = rs.getInt(columnNames.next());
         kennziffer = rs.getInt(columnNames.next());
+    }
+
+    /**
+     * Checks whether the Betriebsstelle has an <tt>ID</tt> larger 0
+     *
+     * @return Whether the Betriebsstelle is valid
+     */
+    public boolean isValid() {
+        return id != 0;
     }
 
     public int getId() {
@@ -55,6 +72,17 @@ public class Betriebsstelle implements ABSExportable {
 
     public int getKennziffer() {
         return kennziffer;
+    }
+
+    public Attribute getAttribute() {
+        return attribute;
+    }
+
+    /**
+     * @param attribute Attribute for the Betriebsstelle
+     */
+    public void addAttribute(Attribute attribute) {
+        this.attribute = attribute;
     }
 
     @Override
@@ -98,5 +126,17 @@ public class Betriebsstelle implements ABSExportable {
         }
 
         return attribute.getId() == FixAttributeValues.ZUGFOLGE.getId();
+    }
+
+    public Set<Vertex> getVertices() {
+        return vertices;
+    }
+
+    public void addVertex(Vertex vertex) {
+        vertices.add(vertex);
+    }
+
+    public void addAllVertices(Collection<Vertex> vertices) {
+        this.vertices.addAll(vertices);
     }
 }
