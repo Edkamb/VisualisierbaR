@@ -59,6 +59,44 @@ public class Betriebsstelle implements ABSExportable {
 
     @Override
     public String export() {
+        // TODO
+        if (isZugfolge(null)) {
+            return String.format(ZUGFOLGE_EXPORT, getAbsName());
+        }
+
+        return String.format(BAHNHOF_EXPORT, getAbsName());
+    }
+
+    @Override
+    public String getAbsName() {
+        String formattableString = "bahnhof_%d";
+        if (isZugfolge(attribute)) {
+            formattableString = "zugfolge_%d";
+        }
+
+        return String.format(formattableString, getId());
+    }
+
+    @Override
+    public List<String> exportChildren() {
         return null;
+    }
+
+    /**
+     * Checks whether the Betriebsstelle is a Zugfolge. This is hardcoded since it's the same way in
+     * the database. The ID for a Zugfolge is defined in `FixAttributeValues`.
+     *
+     * @param attribute Attribute to check ID against
+     */
+    public boolean isZugfolge(Attribute attribute) {
+        if (this.attribute != null) {
+            attribute = this.attribute;
+        }
+        if (attribute == null) {
+            throw new IllegalArgumentException(
+                "An attribute has to be provided to check whether the Betriebsstelle is a Bahnhof or a Zugfolge.");
+        }
+
+        return attribute.getId() == FixAttributeValues.ZUGFOLGE.getId();
     }
 }

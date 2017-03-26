@@ -3,6 +3,7 @@ package com.github.bachelorpraktikum.dbvisualization.database;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Iterator;
+import java.util.List;
 
 public class Attribute extends DBTable implements ABSExportable {
 
@@ -44,6 +45,16 @@ public class Attribute extends DBTable implements ABSExportable {
 
     @Override
     public String export() {
+        return null;
+    }
+
+    @Override
+    public String getAbsName() {
+        return null;
+    }
+
+    @Override
+    public List<String> exportChildren() {
         return null;
     }
 }

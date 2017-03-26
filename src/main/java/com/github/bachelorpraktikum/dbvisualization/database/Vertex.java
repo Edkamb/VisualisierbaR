@@ -108,11 +108,17 @@ public class Vertex implements ABSExportable {
 
     @Override
     public String export() {
-        String absName = String.format("node_%s", name);
-        if (name.isEmpty()) {
-            absName = String.format("node_%d", id);
-        }
-        String formatableString = "Node %s = new local NodeImpl(%d,%d);";
-        return String.format(formatableString, absName, local.getX(), local.getY());
+        String formattableString = "Node %s = new local NodeImpl(%d,%d);";
+        return String.format(formattableString, getAbsName(), global.getX(), global.getY());
+    }
+
+    @Override
+    public String getAbsName() {
+        return String.format("node_%d", id);
+    }
+
+    @Override
+    public List<String> exportChildren() {
+        return Collections.emptyList();
     }
 }

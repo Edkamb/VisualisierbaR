@@ -3,6 +3,7 @@ package com.github.bachelorpraktikum.dbvisualization.database;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Optional;
 
 public class DBEdge implements ABSExportable {
@@ -62,10 +63,18 @@ public class DBEdge implements ABSExportable {
     public String export() {
         // ABSName, NodeToName, NodeFromName, Length
         String formattableString = "Edge %s = new local EdgeImpl(%s,%s,%d);";
-        String absName = String.format("edge_%d", id);
-        String exportString = String
-            .format(formattableString, absName, from.getId(), to.getId(), getLength());
-        return exportString;
+        return String
+            .format(formattableString, getAbsName(), from.getId(), to.getId(), getLength());
+    }
+
+    @Override
+    public String getAbsName() {
+        return String.format("edge_%d", getId());
+    }
+
+    @Override
+    public List<String> exportChildren() {
+        return null;
     }
 
     public int getFromID() {
