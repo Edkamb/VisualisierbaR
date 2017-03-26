@@ -17,10 +17,24 @@ public class Database implements AutoCloseable {
     private HikariDataSource dataSource;
     private final int CONNECTION_TIMEOUT = 1000;
 
+    /**
+     * Creates a database connection with the given URI. Tries to load the {@link DatabaseUser
+     * database user} via {@link DatabaseUser#fromConfig}. If that fails, a {@link DatabaseUser
+     * database user} without credentials is used.
+     *
+     * @param uri URI to create the connection to
+     */
     public Database(URI uri) {
         this(uri, DatabaseUser.fromConfig().orElse(new DatabaseUser("", "")));
     }
 
+    /**
+     * Creates a database connection with the given <tt>uri</tt> and {@link DatabaseUser database
+     * user}.
+     *
+     * @param uri URI to create the connection to
+     * @param user Credentials for the database access
+     */
     public Database(URI uri, DatabaseUser user) {
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -38,6 +52,12 @@ public class Database implements AutoCloseable {
         dataSource = new HikariDataSource(config);
     }
 
+    /**
+     * Tests whether the database can be accessed over the given URI with the provided {@link
+     * DatabaseUser database user}
+     *
+     * @return Whether a connection can be made
+     */
     public boolean testConnection() {
         try {
             return dataSource.getConnection().isValid(CONNECTION_TIMEOUT);
@@ -46,6 +66,11 @@ public class Database implements AutoCloseable {
         }
     }
 
+    /**
+     * Returns the connection for accessing the database
+     *
+     * @return Connection for the database
+     */
     public Optional<Connection> getConnection() {
         try {
             return Optional.of(dataSource.getConnection());
@@ -56,30 +81,73 @@ public class Database implements AutoCloseable {
         return Optional.empty();
     }
 
+    /**
+     * Returns a complete list of {@link Neighbors} from the database
+     * Calls {@link #getTableElements(Tables, Class)}
+     *
+     * @return Complete list of {@link Neighbors}
+     */
     public List<Neighbors> getNeighbors() {
         return getTableElements(Tables.NEIGHBORS, Neighbors.class);
     }
 
+    /**
+     * Returns a complete list of {@link Attribute attributes} from the database
+     * Calls {@link #getTableElements(Tables, Class)}
+     *
+     * @return Complete list of {@link org.w3c.dom.Attr}
+     */
     public List<Attribute> getAttributes() {
         return getTableElements(Tables.ATTRIBUTES, Attribute.class);
     }
 
+    /**
+     * Returns a complete list of {@link Betriebsstelle Betriebsstellen} from the database
+     * Calls {@link #getTableElements(Tables, Class)}
+     *
+     * @return Complete list of {@link Betriebsstelle Betriebsstellen}
+     */
     public List<Betriebsstelle> getBetriebsstellen() {
         return getTableElements(Tables.BETRIEBSSTELLEN, Betriebsstelle.class);
     }
 
+    /**
+     * Returns a complete list of {@link ObjectAttribute object attributes} from the database
+     * Calls {@link #getTableElements(Tables, Class)}
+     *
+     * @return Complete list of {@link ObjectAttribute object attributes}
+     */
     public List<ObjectAttribute> getObjectAttributes() {
         return getTableElements(Tables.OBJECT_ATTRIBUTES, ObjectAttribute.class);
     }
 
+    /**
+     * Returns a complete list of {@link ObjectObjectAttribute ObjectObjectAttributes} from the
+     * database
+     * Calls {@link #getTableElements(Tables, Class)}
+     *
+     * @return Complete list of {@link ObjectObjectAttribute ObjectObjectAttributes}
+     */
     public List<ObjectObjectAttribute> getObjectObjectAtributes() {
         return getTableElements(Tables.OBJECT_OBJECT_ATTRIBUTES, ObjectObjectAttribute.class);
     }
 
+    /**
+     * Returns a complete list of {@link Vertex vertices} from the database
+     * Calls {@link #getTableElements(Tables, Class)}
+     *
+     * @return Complete list of {@link Vertex vertices}
+     */
     public List<Vertex> getVertices() {
         return getTableElements(Tables.VERTICES, Vertex.class);
     }
 
+    /**
+     * Returns a complete list of {@link DBEdge edges} from the database
+     * Calls {@link #getTableElements(Tables, Class)}
+     *
+     * @return Complete list of {@link DBEdge edges}
+     */
     public List<DBEdge> getEdges() {
         return getTableElements(Tables.EDGES, DBEdge.class);
     }
