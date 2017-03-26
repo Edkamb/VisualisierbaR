@@ -18,7 +18,7 @@ public class Database implements AutoCloseable {
     private final int CONNECTION_TIMEOUT = 1000;
 
     public Database(URI uri) {
-        new Database(uri, new DatabaseUser("", ""));
+        this(uri, DatabaseUser.fromConfig().orElse(new DatabaseUser("", "")));
     }
 
     public Database(URI uri, DatabaseUser user) {
