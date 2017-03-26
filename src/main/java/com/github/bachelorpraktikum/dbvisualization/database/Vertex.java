@@ -3,8 +3,12 @@ package com.github.bachelorpraktikum.dbvisualization.database;
 import com.github.bachelorpraktikum.dbvisualization.model.Coordinates;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 public class Vertex implements ABSExportable {
 
@@ -19,6 +23,7 @@ public class Vertex implements ABSExportable {
     private final int edge_ID;
     private final Coordinates local;
     private final Coordinates global;
+    private Set<Attribute> attributes;
 
     Vertex(int id, int betriebsstelle_id, int kennziffer, String name, double length,
         Direction direction, int edge_id, Coordinates local, Coordinates global) {
@@ -31,6 +36,8 @@ public class Vertex implements ABSExportable {
         edge_ID = edge_id;
         this.local = local;
         this.global = global;
+
+        attributes = new HashSet<>();
     }
 
     public Vertex(ResultSet rs) throws SQLException {
@@ -51,6 +58,17 @@ public class Vertex implements ABSExportable {
         int globalY = rs.getInt(columnNames.next());
         // TODO
         global = new Coordinates(Math.max(globalX, 0), Math.max(globalY, 0));
+
+        attributes = new HashSet<>();
+    }
+
+    /**
+     * Checks whether the Vertex is valid (The vertex is in a Betriebsstelle)
+     *
+     * @return Whether the Vertex is valid
+     */
+    public boolean isValid() {
+        return betriebsstelle_ID != 0;
     }
 
     public int getId() {
@@ -94,6 +112,12 @@ public class Vertex implements ABSExportable {
         this.edge = edge;
     }
 
+    /**
+     * Returns the local coordinates in the corresponding <tt>Betriebsstelle</tt>
+     *
+     * @return Local coordinates (local to the Betriebsstelle Coordinate)
+     */
+    @Deprecated
     public Coordinates getLocalCoordinates() {
         return local;
     }
@@ -104,6 +128,16 @@ public class Vertex implements ABSExportable {
 
     public int getEdgeID() {
         return edge_ID;
+    }
+
+    /**
+     * Adds an attribute to the attributes set of the vertex
+     *
+     * @param attribute Attribute to add
+     * @return <tt>true</tt> if this set did not already contain the specified element
+     */
+    public void addAttribute(Attribute attribute) {
+        attributes.add(attribute);
     }
 
     @Override
