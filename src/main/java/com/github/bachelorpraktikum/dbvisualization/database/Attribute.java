@@ -7,6 +7,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 import java.util.StringJoiner;
+import java.util.logging.Logger;
 
 public class Attribute extends DBTable implements ABSExportable, Element {
 
@@ -58,18 +59,32 @@ public class Attribute extends DBTable implements ABSExportable, Element {
         String name = getAbsName();
         String exportString = "";
 
+        String hauptsignalFormatString = "HauptSignal %s = new local HauptSignalImpl(%s, %s);";
+        String vorsignalFormatString = "VorSignal %s = new local VorSignalImpl(%s);";
         if (getId() == FixAttributeValues.HAUPT_UND_VORSIGNAL.getId()
             || getId() == FixAttributeValues.HAUPT_UND_VORSIGNAL_MIT_SPERRSIGNAL.getId()) {
-            String hauptsignalFormatString = "HauptSignal %s = new local HauptSignalImpl(%s, %s);";
-            String vorsignalFormatString = "VorSignal %s = new local VorSignalImpl(%s);";
+            if (edge == null) {
+                throw new IllegalArgumentException(
+                    "Attribute(HauptUndVorsignal) needs to be tied to a vertex to be exported.");
+            }
 
             exportString = String.format(hauptsignalFormatString, name, getVertex().getAbsName(),
                 getEdge().getAbsName());
             exportString = new StringJoiner(System.lineSeparator()).add(exportString)
-                .add(vorsignalFormatString).toString();
-        } else if () {
-
+                .add(String.format(vorsignalFormatString, getAbsName(), getVertex().getAbsName()))
+                .toString();
+        } else if (getId() == FixAttributeValues.VORSIGNAL.getId()) {
+            exportString = String
+                .format(vorsignalFormatString, getAbsName(), getVertex().getAbsName());
+        } else if (getId() == FixAttributeValues.SPERRSIGNAL.getId()) {
+            Logger.getLogger(getClass().getName())
+                .info("Not creating abs class SPERRSIGNAL, implementation is unknown.");
         } else {
+            Logger.getLogger(getClass().getName())
+                .severe(String.format(
+                    "Guessing the abs class of attribute (%d) and constructor based on default observations.",
+                    getId()));
+
             Optional<FixAttributeValues> fixAttributeOpt = FixAttributeValues.get(getId());
             if (fixAttributeOpt.isPresent()) {
                 FixAttributeValues fixAttribute = fixAttributeOpt.get();
