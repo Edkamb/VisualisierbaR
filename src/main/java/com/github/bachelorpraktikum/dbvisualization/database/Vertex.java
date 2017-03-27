@@ -136,8 +136,8 @@ public class Vertex implements ABSExportable, Element {
      * @param attribute Attribute to add
      * @return <tt>true</tt> if this set did not already contain the specified element
      */
-    public void addAttribute(Attribute attribute) {
-        attributes.add(attribute);
+    public boolean addAttribute(Attribute attribute) {
+        return attributes.add(attribute);
     }
 
     @Override

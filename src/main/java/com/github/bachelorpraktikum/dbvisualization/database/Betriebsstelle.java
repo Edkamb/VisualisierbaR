@@ -115,6 +115,7 @@ public class Betriebsstelle implements ABSExportable, Element {
      * the database. The ID for a Zugfolge is defined in `FixAttributeValues`.
      *
      * @param attribute Attribute to check ID against
+     * @return Whether the element is a `Zugfolge`
      */
     public boolean isZugfolge(Attribute attribute) {
         if (this.attribute != null) {

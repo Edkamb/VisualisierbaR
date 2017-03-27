@@ -36,6 +36,7 @@ public class DBTable {
      * Executes a select query over all column names (`getColumnNamesAsString`)
      *
      * @return ResultSet for 'SELECT `getColumnNamesAsString` FROM `getName()`'
+     * @throws SQLException SQL Exception if fault during query execution occurs
      */
     public ResultSet select() throws SQLException {
         return select(false);
