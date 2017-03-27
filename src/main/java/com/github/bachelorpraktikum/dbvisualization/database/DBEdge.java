@@ -88,7 +88,7 @@ public class DBEdge implements ABSExportable, Element {
 
     @Override
     public String export() {
-        // ABSName, NodeToName, NodeFromName, Length
+        // ABSName, NodeFromName, NodeToName, Length(in m)
         String formattableString = "Edge %s = new local EdgeImpl(%s,%s,%d);";
         return String
             .format(formattableString, getAbsName(), from.getId(), to.getId(), kmToM(getLength()));
@@ -114,5 +114,9 @@ public class DBEdge implements ABSExportable, Element {
 
     public int getToID() {
         return toID;
+    }
+
+    public boolean isFree() {
+        return wayNumber == -1;
     }
 }
