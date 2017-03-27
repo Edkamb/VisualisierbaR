@@ -53,4 +53,9 @@ enum FixAttributeValues {
 
         return Optional.empty();
     }
+
+    @Override
+    public String toString() {
+        return String.format("ID: %d | LHS: %s | RHS: %s", getId(), classNameLhs(), classNameRhs());
+    }
 }
