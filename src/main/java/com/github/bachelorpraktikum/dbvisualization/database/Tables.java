@@ -13,14 +13,14 @@ public enum Tables {
     VERTICES("vertices", new String[]{
         "ID", "betriebsstellen_ID", "Kennziffer", "name", "km", "direction", "edge_ID", "XLocal",
         "YLocal", "XGlobal", "YGlobal"
-    }, "'betriebsstelle_ID IS NOT NULL'"),
+    }, "betriebsstellen_ID IS NOT NULL"),
 
     OBJECT_OBJECT_ATTRIBUTES("object_object_attributes", new String[]{
         "ID", "object1_ID", "object2_ID", "attribute_ID"
     }, null),
 
     NEIGHBORS("neighbors", new String[]{
-        "Kennziffer_BST", "edgeName", "Kennziffer_BST_Nachbar"
+        "ID", "object1_ID", "object2_ID"
     }, null),
 
     EDGES("edges", new String[]{
