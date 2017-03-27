@@ -91,7 +91,11 @@ public class DBEdge implements ABSExportable, Element {
         // ABSName, NodeToName, NodeFromName, Length
         String formattableString = "Edge %s = new local EdgeImpl(%s,%s,%d);";
         return String
-            .format(formattableString, getAbsName(), from.getId(), to.getId(), getLength());
+            .format(formattableString, getAbsName(), from.getId(), to.getId(), kmToM(getLength()));
+    }
+
+    private int kmToM(double length) {
+        return new Double(length * 1000).intValue();
     }
 
     @Override
