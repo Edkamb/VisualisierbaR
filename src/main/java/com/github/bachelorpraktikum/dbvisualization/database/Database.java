@@ -16,13 +16,13 @@ public class Database implements AutoCloseable {
 
     private HikariDataSource dataSource;
     private final int CONNECTION_TIMEOUT = 1000;
-    List<Attribute> attributes;
-    List<Neighbors> neighbors;
-    List<Betriebsstelle> betriebsstellen;
-    List<ObjectAttribute> objectAttributes;
-    List<ObjectObjectAttribute> objectObjectAttributes;
-    List<Vertex> vertices;
-    List<DBEdge> edges;
+    private List<Attribute> attributes;
+    private List<Neighbors> neighbors;
+    private List<Betriebsstelle> betriebsstellen;
+    private List<ObjectAttribute> objectAttributes;
+    private List<ObjectObjectAttribute> objectObjectAttributes;
+    private List<Vertex> vertices;
+    private List<DBEdge> edges;
 
     /**
      * Creates a database connection with the given URI. Tries to load the {@link DatabaseUser
