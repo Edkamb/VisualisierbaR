@@ -55,6 +55,22 @@ public class Attribute extends DBTable implements ABSExportable, Element {
 
     @Override
     public List<String> exportChildren() {
-        return null;
+        return Collections.emptyList();
+    }
+
+    void setVertex(Vertex vertex) {
+        this.vertex = vertex;
+    }
+
+    Vertex getVertex() {
+        return vertex;
+    }
+
+    void setEdge(DBEdge edge) {
+        this.edge = edge;
+    }
+
+    DBEdge getEdge() {
+        return edge;
     }
 }
