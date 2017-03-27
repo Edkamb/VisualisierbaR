@@ -14,17 +14,17 @@ public class DBEdge implements ABSExportable, Element {
     private Vertex to;
     private final int toID;
     private final int wayNumber;
-    private int length;
+    private double length;
 
     public DBEdge(int id, Vertex from,
-        Vertex to, int wayNumber, int length) {
+        Vertex to, int wayNumber) {
         this.id = id;
         this.from = from;
         fromID = from.getId();
         this.to = to;
         toID = to.getId();
         this.wayNumber = wayNumber;
-        this.length = length;
+        setLength();
     }
 
     public DBEdge(ResultSet rs) throws SQLException {
@@ -47,14 +47,18 @@ public class DBEdge implements ABSExportable, Element {
         return Optional.ofNullable(to);
     }
 
-    public int getLength() {
+    public double getLength() {
         return length;
     }
 
-    public void setLength(int length) {
+    public void setLength(double length) {
         this.length = length;
     }
 
+    public void setLength() {
+        length = (Math.max(from.getLength(), to.getLength()) -
+            Math.min(from.getLength(), to.getLength()));
+    }
     public int getWayNumber() {
         return wayNumber;
     }
