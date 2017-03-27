@@ -20,7 +20,7 @@ public class Neighbors implements Element {
         vertex2ID = vertex2.getId();
     }
 
-    Neighbors(ResultSet rs) throws SQLException {
+    public Neighbors(ResultSet rs) throws SQLException {
         Iterator<String> columnNames = Tables.NEIGHBORS.getColumnNames().iterator();
         id = rs.getInt(columnNames.next());
         vertex1ID = rs.getInt(columnNames.next());
