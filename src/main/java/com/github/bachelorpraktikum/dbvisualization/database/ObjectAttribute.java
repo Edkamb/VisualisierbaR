@@ -26,7 +26,7 @@ public class ObjectAttribute implements Element {
         this.value = value;
     }
 
-    ObjectAttribute(ResultSet rs) throws SQLException {
+    public ObjectAttribute(ResultSet rs) throws SQLException {
         Iterator<String> columnNames = Tables.OBJECT_ATTRIBUTES.getColumnNames().iterator();
         id = rs.getInt(columnNames.next());
         type = rs.getString(columnNames.next());

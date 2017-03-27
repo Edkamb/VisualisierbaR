@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class DBTable {
 
@@ -15,9 +16,12 @@ public class DBTable {
 
     public DBTable(Connection connection, Tables table) throws SQLException {
         this.table = table;
+        String where = "";
+        if (table.getWhereCondition().isPresent()) {
+            where = String.format(" WHERE %s", table.getWhereCondition().get());
+        }
         select_query_string = String
-            .format(select_query_string, getColumnNamesAsString(), getName(),
-                table.getWhereCondition().orElse(""));
+            .format(select_query_string, getColumnNamesAsString(), getName(), where);
         createSelectStatement(connection);
     }
 
@@ -41,6 +45,8 @@ public class DBTable {
         if (select_result != null && !update) {
             return select_result;
         }
+        Logger.getLogger(getClass().getName())
+            .finest(String.format("Executing SQL Query: %s", select_query_statement.toString()));
         select_result = select_query_statement.executeQuery();
         return select_result;
     }
