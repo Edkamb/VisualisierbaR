@@ -5,7 +5,7 @@ import java.sql.SQLException;
 import java.util.Iterator;
 import java.util.Optional;
 
-public class ObjectAttribute {
+public class ObjectAttribute implements Element {
 
     private final int id;
     private final String type;

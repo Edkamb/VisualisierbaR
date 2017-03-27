@@ -4,7 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Iterator;
 
-public class Neighbors {
+public class Neighbors implements Element {
 
     private final int id;
     private final int vertex1ID;

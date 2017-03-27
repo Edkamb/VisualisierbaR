@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-public class Vertex implements ABSExportable {
+public class Vertex implements ABSExportable, Element {
 
     private final int id;
     private Betriebsstelle betriebsstelle;

@@ -6,7 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
-public class DBEdge implements ABSExportable {
+public class DBEdge implements ABSExportable, Element {
 
     private final int id;
     private Vertex from;

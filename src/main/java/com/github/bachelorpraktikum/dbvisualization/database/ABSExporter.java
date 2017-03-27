@@ -33,6 +33,16 @@ public class ABSExporter implements ABSExportable {
             .format(getEnclosingFunctionFormattable(), getLineSeperatedElements(), getExtra());
     }
 
+    @Override
+    public String getAbsName() {
+        return null;
+    }
+
+    @Override
+    public List<String> exportChildren() {
+        return null;
+    }
+
     public List<ABSExportable> getElements() {
         return elements;
     }

@@ -5,7 +5,7 @@ import java.sql.SQLException;
 import java.util.Iterator;
 import java.util.Optional;
 
-public class ObjectObjectAttribute {
+public class ObjectObjectAttribute implements Element {
 
     private final int id;
     private Vertex object1;

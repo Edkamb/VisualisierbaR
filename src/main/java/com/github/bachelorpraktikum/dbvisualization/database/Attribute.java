@@ -5,7 +5,7 @@ import java.sql.SQLException;
 import java.util.Iterator;
 import java.util.List;
 
-public class Attribute extends DBTable implements ABSExportable {
+public class Attribute extends DBTable implements ABSExportable, Element {
 
     private final int id;
     private final String title;

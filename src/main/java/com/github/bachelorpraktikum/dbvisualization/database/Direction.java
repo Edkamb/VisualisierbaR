@@ -1,6 +1,6 @@
 package com.github.bachelorpraktikum.dbvisualization.database;
 
-public enum Direction {
+public enum Direction implements Element {
     None("None", 0),
     AscendingChainage("Ascending", 1),
     DescendingChainage("Descending", 2),
