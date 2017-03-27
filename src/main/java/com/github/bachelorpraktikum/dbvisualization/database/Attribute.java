@@ -16,7 +16,6 @@ public class Attribute extends DBTable implements ABSExportable, Element {
     private final String description;
     private final String acronym;
     private Vertex vertex;
-    private DBEdge edge;
 
     public Attribute(int id, String title, String description, String acronym) {
         this.id = id;
@@ -25,7 +24,7 @@ public class Attribute extends DBTable implements ABSExportable, Element {
         this.acronym = acronym;
     }
 
-    Attribute(ResultSet rs) throws SQLException {
+    public Attribute(ResultSet rs) throws SQLException {
         Iterator<String> columnNames = Tables.ATTRIBUTES.getColumnNames().iterator();
         id = rs.getInt(columnNames.next());
         title = rs.getString(columnNames.next());
@@ -37,8 +36,8 @@ public class Attribute extends DBTable implements ABSExportable, Element {
         return id;
     }
 
-    public String getTitle() {
-        return title;
+    public Optional<String> getTitle() {
+        return Optional.ofNullable(title);
     }
 
     public String getDescription() {
@@ -63,9 +62,9 @@ public class Attribute extends DBTable implements ABSExportable, Element {
         String vorsignalFormatString = "VorSignal %s = new local VorSignalImpl(%s);";
         if (getId() == FixAttributeValues.HAUPT_UND_VORSIGNAL.getId()
             || getId() == FixAttributeValues.HAUPT_UND_VORSIGNAL_MIT_SPERRSIGNAL.getId()) {
-            if (edge == null) {
+            if (getEdge() == null) {
                 throw new IllegalArgumentException(
-                    "Attribute(HauptUndVorsignal) needs to be tied to a vertex to be exported.");
+                    "Attribute(HauptUndVorsignal) needs to be tied to a edge to be exported.");
             }
 
             exportString = String.format(hauptsignalFormatString, name, getVertex().getAbsName(),
@@ -75,19 +74,17 @@ public class Attribute extends DBTable implements ABSExportable, Element {
                 .toString();
         } else if (getId() == FixAttributeValues.VORSIGNAL.getId()) {
             exportString = String
-                .format(vorsignalFormatString, getAbsName(), getVertex().getAbsName());
+                .format(vorsignalFormatString, name, getVertex().getAbsName());
         } else if (getId() == FixAttributeValues.SPERRSIGNAL.getId()) {
             Logger.getLogger(getClass().getName())
                 .info("Not creating abs class SPERRSIGNAL, implementation is unknown.");
         } else {
-            Logger.getLogger(getClass().getName())
-                .severe(String.format(
-                    "Guessing the abs class of attribute (%d) and constructor based on default observations.",
-                    getId()));
-
             Optional<FixAttributeValues> fixAttributeOpt = FixAttributeValues.get(getId());
             if (fixAttributeOpt.isPresent()) {
                 FixAttributeValues fixAttribute = fixAttributeOpt.get();
+                if (fixAttribute.classNameLhs() == null) {
+                    return exportString;
+                }
                 String formattableString = "%s %s = new local %s(%s);";
                 exportString = String
                     .format(formattableString, fixAttribute.classNameLhs(), name,
@@ -95,8 +92,6 @@ public class Attribute extends DBTable implements ABSExportable, Element {
                 String comment = "// Experimental. This was constructed by using default values. See Attribute.java and FixAttributeValues.java (VisualisierbaR project) for more information.";
                 exportString = new StringJoiner(System.lineSeparator()).add(comment)
                     .add(exportString).toString();
-            } else {
-                // TODO
             }
         }
 
@@ -105,7 +100,9 @@ public class Attribute extends DBTable implements ABSExportable, Element {
 
     @Override
     public String getAbsName() {
-        return null;
+        String name_prefix = getTitle().orElse(String.valueOf(getId())).replace(" ", "_")
+            .toLowerCase();
+        return String.format("%s_%d", name_prefix, getId());
     }
 
     @Override
@@ -113,7 +110,7 @@ public class Attribute extends DBTable implements ABSExportable, Element {
         return Collections.emptyList();
     }
 
-    void setVertex(Vertex vertex) {
+    public void setVertex(Vertex vertex) {
         this.vertex = vertex;
     }
 
@@ -121,11 +118,7 @@ public class Attribute extends DBTable implements ABSExportable, Element {
         return vertex;
     }
 
-    void setEdge(DBEdge edge) {
-        this.edge = edge;
-    }
-
     DBEdge getEdge() {
-        return edge;
+        return vertex.getEdge().get();
     }
 }
