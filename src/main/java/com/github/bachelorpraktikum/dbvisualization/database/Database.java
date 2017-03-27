@@ -59,6 +59,20 @@ public class Database implements AutoCloseable {
         dataSource = new HikariDataSource(config);
     }
 
+    private void getAll() {
+        getAttributes();
+        getObjectAttributes();
+        getEdges();
+        getVertices();
+        getBetriebsstellen();
+        getNeighbors();
+        getObjectObjectAtributes();
+    }
+
+    private void merge() {
+        edges.addAll(createFreeEdges());
+    }
+
     /**
      * <p>Free edges will begin with the highest ID possible which fits in an integer, i.e.
      * <tt>Integer.MAX_VALUE - #freeEdges</tt></p>
