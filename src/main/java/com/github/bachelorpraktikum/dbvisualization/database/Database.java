@@ -16,6 +16,13 @@ public class Database implements AutoCloseable {
 
     private HikariDataSource dataSource;
     private final int CONNECTION_TIMEOUT = 1000;
+    List<Attribute> attributes;
+    List<Neighbors> neighbors;
+    List<Betriebsstelle> betriebsstellen;
+    List<ObjectAttribute> objectAttributes;
+    List<ObjectObjectAttribute> objectObjectAttributes;
+    List<Vertex> vertices;
+    List<DBEdge> edges;
 
     /**
      * Creates a database connection with the given URI. Tries to load the {@link DatabaseUser
@@ -88,7 +95,11 @@ public class Database implements AutoCloseable {
      * @return Complete list of {@link Neighbors}
      */
     public List<Neighbors> getNeighbors() {
-        return getTableElements(Tables.NEIGHBORS, Neighbors.class);
+        if (neighbors == null) {
+            neighbors = getTableElements(Tables.NEIGHBORS, Neighbors.class);
+        }
+
+        return neighbors;
     }
 
     /**
@@ -98,7 +109,10 @@ public class Database implements AutoCloseable {
      * @return Complete list of {@link org.w3c.dom.Attr}
      */
     public List<Attribute> getAttributes() {
-        return getTableElements(Tables.ATTRIBUTES, Attribute.class);
+        if (attributes == null) {
+            attributes = getTableElements(Tables.ATTRIBUTES, Attribute.class);
+        }
+        return attributes;
     }
 
     /**
@@ -108,7 +122,10 @@ public class Database implements AutoCloseable {
      * @return Complete list of {@link Betriebsstelle Betriebsstellen}
      */
     public List<Betriebsstelle> getBetriebsstellen() {
-        return getTableElements(Tables.BETRIEBSSTELLEN, Betriebsstelle.class);
+        if (betriebsstellen == null) {
+            getTableElements(Tables.BETRIEBSSTELLEN, Betriebsstelle.class);
+        }
+        return betriebsstellen;
     }
 
     /**
@@ -118,7 +135,10 @@ public class Database implements AutoCloseable {
      * @return Complete list of {@link ObjectAttribute object attributes}
      */
     public List<ObjectAttribute> getObjectAttributes() {
-        return getTableElements(Tables.OBJECT_ATTRIBUTES, ObjectAttribute.class);
+        if (objectAttributes == null) {
+            objectAttributes = getTableElements(Tables.OBJECT_ATTRIBUTES, ObjectAttribute.class);
+        }
+        return objectAttributes;
     }
 
     /**
@@ -129,7 +149,11 @@ public class Database implements AutoCloseable {
      * @return Complete list of {@link ObjectObjectAttribute ObjectObjectAttributes}
      */
     public List<ObjectObjectAttribute> getObjectObjectAtributes() {
-        return getTableElements(Tables.OBJECT_OBJECT_ATTRIBUTES, ObjectObjectAttribute.class);
+        if (objectObjectAttributes == null) {
+            objectObjectAttributes = getTableElements(Tables.OBJECT_OBJECT_ATTRIBUTES,
+                ObjectObjectAttribute.class);
+        }
+        return objectObjectAttributes;
     }
 
     /**
@@ -139,7 +163,10 @@ public class Database implements AutoCloseable {
      * @return Complete list of {@link Vertex vertices}
      */
     public List<Vertex> getVertices() {
-        return getTableElements(Tables.VERTICES, Vertex.class);
+        if (vertices == null) {
+            vertices = getTableElements(Tables.VERTICES, Vertex.class);
+        }
+        return vertices;
     }
 
     /**
@@ -149,13 +176,17 @@ public class Database implements AutoCloseable {
      * @return Complete list of {@link DBEdge edges}
      */
     public List<DBEdge> getEdges() {
-        return getTableElements(Tables.EDGES, DBEdge.class);
+        if (edges == null) {
+            edges = getTableElements(Tables.EDGES, DBEdge.class);
+        }
+        return edges;
     }
 
     private <T> List<T> getTableElements(Tables table, Class<T> clazz) {
         List<T> elements = new LinkedList<>();
         try {
-            DBTable tTable = new DBTable(getConnection().get(), table);
+            DBTable tTable = new DBTable(
+                getConnection().orElseThrow(IllegalStateException::new), table);
             ResultSet rs = tTable.select();
             while (rs.next()) {
                 Constructor<T> construct = clazz.getConstructor(ResultSet.class);
