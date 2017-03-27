@@ -9,14 +9,15 @@ import java.util.List;
 public class DBTable {
 
     private Tables table;
-    private String select_query_string = "SELECT %s FROM %s;";
+    private String select_query_string = "SELECT %s FROM %s%s;";
     private PreparedStatement select_query_statement;
     private ResultSet select_result;
 
     public DBTable(Connection connection, Tables table) throws SQLException {
         this.table = table;
         select_query_string = String
-            .format(select_query_string, getColumnNamesAsString(), getName());
+            .format(select_query_string, getColumnNamesAsString(), getName(),
+                table.getWhereCondition().orElse(""));
         createSelectStatement(connection);
     }
 
