@@ -59,6 +59,29 @@ public class DBEdge implements ABSExportable, Element {
         length = (Math.max(from.getLength(), to.getLength()) -
             Math.min(from.getLength(), to.getLength()));
     }
+
+    public void setVertexFrom(Vertex from) {
+        this.from = from;
+    }
+
+    public void setVertexTo(Vertex to) {
+        this.to = to;
+    }
+
+    public boolean setVertex(Vertex vertex) {
+        int vertexID = vertex.getId();
+        boolean success = false;
+        if (vertexID == fromID) {
+            from = vertex;
+            success = true;
+        } else if (vertexID == toID) {
+            to = vertex;
+            success = true;
+        }
+
+        return success;
+    }
+
     public int getWayNumber() {
         return wayNumber;
     }
