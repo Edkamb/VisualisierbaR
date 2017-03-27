@@ -60,6 +60,28 @@ public class Database implements AutoCloseable {
     }
 
     /**
+     * <p>Free edges will begin with the highest ID possible which fits in an integer, i.e.
+     * <tt>Integer.MAX_VALUE - #freeEdges</tt></p>
+     *
+     * <p> Free edges are edges which aren't in a {@link Betriebsstelle}, these edges are described
+     * through {@link Neighbors} which hold 2 vertices where the edge is connected to. </p>
+     *
+     * <p> The wayNumber for these edges is -1. </p>
+     */
+    public List<DBEdge> createFreeEdges() {
+        List<Neighbors> neighbors = getNeighbors();
+        List<DBEdge> edges = new LinkedList<>();
+        int idStart = Integer.MAX_VALUE - neighbors.size();
+        for (Neighbors neighbor : neighbors) {
+            DBEdge edge = new DBEdge(idStart, neighbor.getVertex1(), neighbor.getVertex2(), -1);
+            edges.add(edge);
+            idStart--;
+        }
+
+        return edges;
+    }
+
+    /**
      * Tests whether the database can be accessed over the given URI with the provided {@link
      * DatabaseUser database user}
      *
