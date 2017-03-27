@@ -12,4 +12,14 @@ enum FixAttributeValues {
     int getId() {
         return id;
     }
+
+    static Optional<FixAttributeValues> get(int id) {
+        for (FixAttributeValues attributeValue : FixAttributeValues.values()) {
+            if (id == attributeValue.getId()) {
+                return Optional.of(attributeValue);
+            }
+        }
+
+        return Optional.empty();
+    }
 }
