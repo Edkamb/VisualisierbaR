@@ -1,22 +1,28 @@
 package com.github.bachelorpraktikum.dbvisualization.database;
 
 import com.github.bachelorpraktikum.dbvisualization.database.model.ABSExportable;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.StringJoiner;
+import java.util.logging.Logger;
 
 public class ABSExporter {
 
     private final List<ABSExportable> elements;
     private boolean exportString;
+    private String defaultFilename = "Run.abs";
 
     ABSExporter() {
         this(new LinkedList<>());
     }
 
     ABSExporter(List<ABSExportable> elements) {
+        String home = System.getenv("user.home");
+        defaultFilename = String.join(File.pathSeparator, home, "Run.abs");
         this.elements = elements;
     }
 
