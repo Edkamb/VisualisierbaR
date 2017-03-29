@@ -83,9 +83,7 @@ public class Database implements AutoCloseable {
         for (Vertex vertex : vertices) {
             for (DBEdge edge : edges) {
                 if (edge.setVertex(vertex)) {
-                    if (edge.getTo().isPresent() && edge.getFrom().isPresent()) {
-                        break;
-                    }
+                    vertex.setEdge(edge);
                 }
             }
             for (Betriebsstelle betriebsstelle : betriebsstellen) {
