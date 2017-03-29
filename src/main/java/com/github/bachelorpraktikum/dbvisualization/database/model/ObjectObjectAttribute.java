@@ -62,4 +62,10 @@ public class ObjectObjectAttribute implements Element {
     public int getAttributeID() {
         return attributeID;
     }
+
+    public String toString() {
+        String formatable = "%d | [%s] | [%s] | [%s]";
+        return String
+            .format(formatable, getObject1(), getObject1ID(), getObject2(), getAttribute());
+    }
 }

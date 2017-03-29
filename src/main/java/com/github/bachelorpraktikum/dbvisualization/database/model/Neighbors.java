@@ -55,4 +55,9 @@ public class Neighbors implements Element {
     public int getVertex2ID() {
         return vertex2ID;
     }
+
+    public String toString() {
+        String formatable = "%d | [%s] | [%s]";
+        return String.format(formatable, getVertex1(), getVertex2());
+    }
 }

@@ -57,4 +57,11 @@ public enum Tables {
     public Optional<String> getWhereCondition() {
         return Optional.ofNullable(whereCondition);
     }
+
+    @Override
+    public String toString() {
+        String formatable = "%s | [%s] | %s";
+        return String.format(formatable, getName(), String.join(", ", getColumnNames()),
+            getWhereCondition());
+    }
 }
