@@ -141,6 +141,10 @@ public class Vertex implements ABSExportable, Element {
         return attributes.add(attribute);
     }
 
+    Set<Attribute> getAttributes() {
+        return attributes;
+    }
+
     @Override
     public String export() {
         String formattableString = "Node %s = new local NodeImpl(%d,%d);";
