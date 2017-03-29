@@ -95,14 +95,14 @@ public class Attribute implements ABSExportable, Cloneable, Element {
                 .format(vorsignalFormatString, name, getVertex().getAbsName());
         } else if (getId() == FixAttributeValues.SPERRSIGNAL.getId()) {
             Logger.getLogger(getClass().getName())
-                .info("Not creating abs class SPERRSIGNAL, implementation is unknown.");
+                .finer("Not creating abs class SPERRSIGNAL, implementation is unknown.");
         } else {
             ConfigKey experimentalKey = ConfigKey.experimentalAbsExportForAttributes;
             if (!experimentalKey.getBoolean()) {
                 String message = String.format(
                     "Not exporting attribute (#%d). Experimental export can be enabled in the config file via %s",
                     getId(), experimentalKey.getKey());
-                Logger.getLogger(getClass().getName()).info(message);
+                Logger.getLogger(getClass().getName()).config(message);
                 return "";
             }
             Optional<FixAttributeValues> fixAttributeOpt = FixAttributeValues.get(getId());
