@@ -6,9 +6,13 @@ import com.github.bachelorpraktikum.dbvisualization.database.model.Tables;
 import com.github.bachelorpraktikum.dbvisualization.database.model.Vertex;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.logging.Logger;
 
 public class DBEdge implements ABSExportable, Element {
 
@@ -19,6 +23,7 @@ public class DBEdge implements ABSExportable, Element {
     private final int toID;
     private final int wayNumber;
     private double length;
+    private Set<Vertex> vertices;
 
     public DBEdge(int id, Vertex from,
         Vertex to, int wayNumber) {
@@ -29,6 +34,7 @@ public class DBEdge implements ABSExportable, Element {
         toID = to.getId();
         this.wayNumber = wayNumber;
         setLength();
+        vertices = new HashSet<>();
     }
 
     public DBEdge(ResultSet rs) throws SQLException {
@@ -37,6 +43,7 @@ public class DBEdge implements ABSExportable, Element {
         fromID = rs.getInt(columnNames.next());
         toID = rs.getInt(columnNames.next());
         wayNumber = rs.getInt(columnNames.next());
+        vertices = new HashSet<>();
     }
 
     public int getId() {
@@ -89,6 +96,9 @@ public class DBEdge implements ABSExportable, Element {
         } else if (vertexID == toID) {
             to = vertex;
             success = true;
+        } else if (vertex.getEdgeID() == getId()) {
+            addVertex(vertex);
+            success = true;
         }
 
         return success;
@@ -98,10 +108,26 @@ public class DBEdge implements ABSExportable, Element {
         return wayNumber;
     }
 
+    /**
+     * <p>{@inheritDoc}</p>
+     *
+     * <p>Attention: The {@link Vertex#getId()} is used to get the ID from the
+     * <code>from</code> and <code>to</code> vertices. An info message will be shown when either of
+     * them is not found. This is, to prevent using an Edge with no corresponding <code>from</code>
+     * and <code>to</code> vertices. This shouldn't occur if the 'track' in the database is
+     * correct.</p>
+     */
     @Override
     public String export() {
         // ABSName, NodeFromName, NodeToName, Length(in m)
         String formattableString = "Edge %s = new local EdgeImpl(%s,%s,%d);";
+        if (from == null || to == null) {
+            String message = String
+                .format("Edge with ID %d is has a null vertex | From: %d(%s) | To: %d(%s)", getId(),
+                    getFromID(), from, getToID(), to);
+            Logger.getLogger(getClass().getName()).info(message);
+            return "";
+        }
         return String
             .format(formattableString, getAbsName(), from.getId(), to.getId(), kmToM(getLength()));
     }
@@ -126,6 +152,14 @@ public class DBEdge implements ABSExportable, Element {
 
     public int getToID() {
         return toID;
+    }
+
+    public Set<Vertex> getVertices() {
+        return vertices;
+    }
+
+    public boolean addVertex(Vertex vertex) {
+        return vertices.add(vertex);
     }
 
     public boolean isFree() {
