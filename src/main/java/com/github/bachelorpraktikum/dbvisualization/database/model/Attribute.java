@@ -151,4 +151,12 @@ public class Attribute implements ABSExportable, Cloneable, Element {
     public Attribute getClone() {
         return (Attribute) this.clone();
     }
+
+    @Override
+    public String toString() {
+        String formatable = "{%d | %s | %s | %s | [%s] | {%s}}";
+        return String
+            .format(formatable, getId(), getTitle(), getDescription(), getAcronym(), getVertex(),
+                getAbsName());
+    }
 }

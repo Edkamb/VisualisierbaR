@@ -161,4 +161,11 @@ public class DBEdge implements ABSExportable, Element {
     public boolean isFree() {
         return wayNumber == -1;
     }
+
+    @Override
+    public String toString() {
+        String formatable = "{%d | [%s] | [%s] | %d | %f | #%d | {%s}}";
+        return String.format(formatable, getId(), getFrom(), getTo(), getWayNumber(), getLength(),
+            getVertices().size(), getAbsName());
+    }
 }

@@ -36,4 +36,10 @@ public enum Direction implements Element {
 
         return null;
     }
+
+    @Override
+    public String toString() {
+        String formatable = "{%s}";
+        return String.format(formatable, getName());
+    }
 }

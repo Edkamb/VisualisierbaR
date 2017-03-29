@@ -130,4 +130,12 @@ public class Betriebsstelle implements ABSExportable, Element {
     public void addAllVertices(Collection<Vertex> vertices) {
         this.vertices.addAll(vertices);
     }
+
+    @Override
+    public String toString() {
+        String formatable = "{%d | %s | %s | %s | %d | %d | #%d | {%s}}";
+        return String
+            .format(formatable, getId(), getTitle(), getShortName(), getRl100(), getWeatherID(),
+                getKennziffer(), getVertices().size(), getAbsName());
+    }
 }

@@ -159,4 +159,14 @@ public class Vertex implements ABSExportable, Element {
     public List<String> exportChildren() {
         return attributes.stream().map(Attribute::export).collect(Collectors.toList());
     }
+
+    @Override
+    public String toString() {
+        String formatable = "{%d | [%s] | %d | %s | %f | [%s] | [%d] | [%s] | #%d | {%s}}";
+        return String
+            .format(formatable, getId(), getBetriebsstelle().get(), getKennziffer(), getName(),
+                getLength(), getDirection(), getEdgeID(), getGlobalCoordinates(),
+                getAttributes().size(),
+                getAbsName());
+    }
 }
