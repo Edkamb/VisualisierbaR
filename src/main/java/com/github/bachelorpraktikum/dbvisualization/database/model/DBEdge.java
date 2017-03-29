@@ -1,9 +1,5 @@
 package com.github.bachelorpraktikum.dbvisualization.database.model;
 
-import com.github.bachelorpraktikum.dbvisualization.database.model.ABSExportable;
-import com.github.bachelorpraktikum.dbvisualization.database.model.Element;
-import com.github.bachelorpraktikum.dbvisualization.database.model.Tables;
-import com.github.bachelorpraktikum.dbvisualization.database.model.Vertex;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collections;
@@ -112,8 +108,8 @@ public class DBEdge implements ABSExportable, Element {
      * <p>{@inheritDoc}</p>
      *
      * <p>Attention: The {@link Vertex#getId()} is used to get the ID from the
-     * <code>from</code> and <code>to</code> vertices. An info message will be shown when either of
-     * them is not found. This is, to prevent using an Edge with no corresponding <code>from</code>
+     * <code>from</code> and <code>to</code> vertices. An info message will be shown when neither of
+     * them is found. This is, to prevent using an Edge with no corresponding <code>from</code>
      * and <code>to</code> vertices. This shouldn't occur if the 'track' in the database is
      * correct.</p>
      */
