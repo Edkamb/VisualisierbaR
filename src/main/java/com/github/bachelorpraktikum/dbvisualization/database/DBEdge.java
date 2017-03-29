@@ -72,6 +72,14 @@ public class DBEdge implements ABSExportable, Element {
         this.to = to;
     }
 
+    /**
+     * Checks whether the given vertex is equivalent to the <code>FROM</code> or the <code>TO</code>
+     * vertex and sets it accordingly. The success of this operation is returned
+     * <code>from.ID</code> or <code>to.ID</code>
+     *
+     * @param vertex Vertex to check for
+     * @return Whether the vertex is on this edge
+     */
     public boolean setVertex(Vertex vertex) {
         int vertexID = vertex.getId();
         boolean success = false;
