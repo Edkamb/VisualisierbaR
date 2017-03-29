@@ -179,7 +179,7 @@ public class DatabaseChooserController implements SourceChooser<DataSource> {
         Stage stage = ((Stage) rootPaneDatabase.getScene().getWindow());
         stage.onCloseRequestProperty()
             .addListener((observable, oldValue, newValue) -> closed = true);
-        
+
         Database database = null;
         DatabaseUser user = null;
         while (database == null && !closed) {
@@ -193,7 +193,9 @@ public class DatabaseChooserController implements SourceChooser<DataSource> {
                 Logger.getLogger(getClass().getName())
                     .info(String.format("Couldn't connect to db: %s", e.getCause()));
             } finally {
-                user = showLoginWindow();
+                if (database == null) {
+                    user = showLoginWindow();
+                }
             }
         }
 
