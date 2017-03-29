@@ -3,6 +3,8 @@ package com.github.bachelorpraktikum.dbvisualization.database.model;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -39,6 +41,7 @@ public class Betriebsstelle implements ABSExportable, Element {
         rl100 = rs.getString(columnNames.next());
         weatherID = rs.getInt(columnNames.next());
         kennziffer = rs.getInt(columnNames.next());
+        vertices = new HashSet<>(1024);
     }
 
     /**
