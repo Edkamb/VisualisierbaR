@@ -16,7 +16,8 @@ public enum ConfigKey {
     initialDatabasePort("database_initialPort"),
     initialDatabaseName("database_initialName"),
     databaseUsername("database_username"),
-    databasePassword("database_password");
+    databasePassword("database_password"),
+    experimentalAbsExportForAttributes("experimental_attributes_abs_export");
 
     private final String key;
 
