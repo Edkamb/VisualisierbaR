@@ -111,6 +111,7 @@ public class Database implements AutoCloseable {
      *
      * @return Whether a connection can be made
      */
+
     public boolean testConnection() {
         try {
             return dataSource.getConnection().isValid(CONNECTION_TIMEOUT);
@@ -169,7 +170,7 @@ public class Database implements AutoCloseable {
      */
     public List<Betriebsstelle> getBetriebsstellen() {
         if (betriebsstellen == null) {
-            getTableElements(Tables.BETRIEBSSTELLEN, Betriebsstelle.class);
+            betriebsstellen = getTableElements(Tables.BETRIEBSSTELLEN, Betriebsstelle.class);
         }
         return betriebsstellen;
     }
