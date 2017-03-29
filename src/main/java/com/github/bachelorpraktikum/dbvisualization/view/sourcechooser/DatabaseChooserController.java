@@ -2,19 +2,25 @@ package com.github.bachelorpraktikum.dbvisualization.view.sourcechooser;
 
 import com.github.bachelorpraktikum.dbvisualization.config.ConfigFile;
 import com.github.bachelorpraktikum.dbvisualization.config.ConfigKey;
+import com.github.bachelorpraktikum.dbvisualization.database.Database;
+import com.github.bachelorpraktikum.dbvisualization.database.DatabaseUser;
 import com.github.bachelorpraktikum.dbvisualization.datasource.DataSource;
+import com.github.bachelorpraktikum.dbvisualization.datasource.DatabaseSource;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ResourceBundle;
 import java.util.logging.Logger;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.value.ObservableBooleanValue;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
 import javax.annotation.Nonnull;
 
 public class DatabaseChooserController implements SourceChooser<DataSource> {
@@ -162,7 +168,18 @@ public class DatabaseChooserController implements SourceChooser<DataSource> {
     @Nonnull
     @Override
     public DataSource getResource() throws IOException {
-        return null; // TODO this should probably return a SubprocessSource
+        Database database = createDatabase();
+        return new DatabaseSource(database, null);
+    }
+
+    private Database createDatabase() {
+        Database database = new Database(completeURIProperty.get());
+        DatabaseUser user = database.getUser();
+        while(!database.testConnection()) {
+            DatabaseUser newUser = showLoginWindow();
+        }
+
+        return database;
     }
 
     private void setInitialUri(@Nonnull URI uri) {
@@ -174,5 +191,21 @@ public class DatabaseChooserController implements SourceChooser<DataSource> {
         }
         ConfigFile.getInstance().setProperty(portKey, String.valueOf(uri.getPort()));
         ConfigFile.getInstance().setProperty(nameKey, stripLeadingSlash(uri.getPath()));
+    }
+
+
+    private DatabaseUser showLoginWindow() {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("LoginWindow.fxml"));
+        loader.setResources(ResourceBundle.getBundle("bundles.localization"));
+        try {
+            loader.load();
+        } catch (IOException e) {
+            // This should never happen, because the location is set (see load function)
+            return null;
+        }
+
+        LoginController controller = loader.getController();
+        controller.setStage((Stage) rootPaneDatabase.getScene().getWindow());
+        return new DatabaseUser(controller.getUser(), controller.getPassword());
     }
 }
