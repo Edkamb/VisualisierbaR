@@ -24,6 +24,7 @@ import java.util.Optional;
 
 public class Database implements AutoCloseable {
 
+    private final URI uri;
     private HikariDataSource dataSource;
     private final int CONNECTION_TIMEOUT = 1000;
     private List<Attribute> attributes;
@@ -35,6 +36,7 @@ public class Database implements AutoCloseable {
     private List<DBEdge> edges;
     private List<ABSExportable> exportableElements;
     private ABSExporter exporter;
+    private DatabaseUser user;
 
     /**
      * Creates a database connection with the given URI. Tries to load the {@link DatabaseUser
@@ -60,6 +62,13 @@ public class Database implements AutoCloseable {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
+
+        this.user = user;
+        this.uri = uri;
+        init();
+    }
+
+    private void init() {
         HikariConfig config = new HikariConfig();
         config.setJdbcUrl(uri.toString().replace("http://", "jdbc:mysql://"));
         config.setUsername(user.getUser());
@@ -293,5 +302,14 @@ public class Database implements AutoCloseable {
 
     public ABSExporter getExporter() {
         return exporter;
+    }
+
+    public DatabaseUser getUser() {
+        return user;
+    }
+
+    public void setUser(DatabaseUser user) {
+        this.user = user;
+        init();
     }
 }
