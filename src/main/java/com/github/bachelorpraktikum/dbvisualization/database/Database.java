@@ -1,5 +1,6 @@
 package com.github.bachelorpraktikum.dbvisualization.database;
 
+import com.github.bachelorpraktikum.dbvisualization.database.model.ABSExportable;
 import com.github.bachelorpraktikum.dbvisualization.database.model.Attribute;
 import com.github.bachelorpraktikum.dbvisualization.database.model.Betriebsstelle;
 import com.github.bachelorpraktikum.dbvisualization.database.model.Neighbors;
@@ -15,6 +16,7 @@ import java.net.URI;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -30,6 +32,7 @@ public class Database implements AutoCloseable {
     private List<ObjectObjectAttribute> objectObjectAttributes;
     private List<Vertex> vertices;
     private List<DBEdge> edges;
+    private List<ABSExportable> exportableElements;
     private ABSExporter exporter;
 
     /**
@@ -66,15 +69,18 @@ public class Database implements AutoCloseable {
         config.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");
         dataSource = new HikariDataSource(config);
 
-        exporter = new ABSExporter();
+        exportableElements = new ArrayList<>();
+        getAll();
+        merge();
+        exporter = new ABSExporter(exportableElements);
     }
 
     private void getAll() {
         getAttributes();
         getObjectAttributes();
-        getEdges();
-        getVertices();
-        getBetriebsstellen();
+        exportableElements.addAll(getEdges());
+        exportableElements.addAll(getVertices());
+        exportableElements.addAll(getBetriebsstellen());
         getNeighbors();
         getObjectObjectAtributes();
     }
@@ -282,5 +288,9 @@ public class Database implements AutoCloseable {
     @Override
     public void close() throws Exception {
         dataSource.close();
+    }
+
+    public ABSExporter getExporter() {
+        return exporter;
     }
 }
