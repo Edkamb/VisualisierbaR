@@ -39,6 +39,10 @@ public enum ConfigKey {
         return ConfigFile.getInstance().getProperty(getKey(), defaultValue);
     }
 
+    public boolean getBoolean() {
+        return Boolean.parseBoolean(ConfigFile.getInstance().getProperty(getKey()));
+    }
+
     public void set(@Nullable String value) {
         if (value == null) {
             ConfigFile.getInstance().remove(getKey());
