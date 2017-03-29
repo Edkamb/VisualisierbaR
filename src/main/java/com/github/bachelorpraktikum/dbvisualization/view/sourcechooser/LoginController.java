@@ -1,5 +1,6 @@
 package com.github.bachelorpraktikum.dbvisualization.view.sourcechooser;
 
+import java.util.Optional;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.fxml.FXML;
@@ -42,20 +43,37 @@ public class LoginController {
                 openButton.setDisable(false);
             }
         });
+
+        openButton.setOnAction(event -> close());
+    }
+
+    Button getOpenButton() {
+        return openButton;
     }
 
     public String getUser() {
-        return userProperty.getValue();
+        return Optional.ofNullable(userProperty.getValue()).orElse("");
     }
 
     public String getPassword() {
-        return userProperty.getValue();
+        return Optional.ofNullable(passwordProperty.getValue()).orElse("");
     }
 
     void setStage(Stage stage) {
         Scene scene = new Scene(rootPane);
         stage.setScene(scene);
-
         stage.centerOnScreen();
+    }
+
+    public void show() {
+        Stage stage = new Stage();
+        Scene scene = new Scene(rootPane);
+
+        stage.setScene(scene);
+        stage.showAndWait();
+    }
+
+    public void close() {
+        ((Stage) rootPane.getScene().getWindow()).close();
     }
 }
