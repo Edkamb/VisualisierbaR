@@ -1,5 +1,12 @@
 package com.github.bachelorpraktikum.dbvisualization.database;
 
+import com.github.bachelorpraktikum.dbvisualization.database.model.Attribute;
+import com.github.bachelorpraktikum.dbvisualization.database.model.Betriebsstelle;
+import com.github.bachelorpraktikum.dbvisualization.database.model.Neighbors;
+import com.github.bachelorpraktikum.dbvisualization.database.model.ObjectAttribute;
+import com.github.bachelorpraktikum.dbvisualization.database.model.ObjectObjectAttribute;
+import com.github.bachelorpraktikum.dbvisualization.database.model.Tables;
+import com.github.bachelorpraktikum.dbvisualization.database.model.Vertex;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import java.lang.reflect.Constructor;

@@ -1,5 +1,6 @@
 package com.github.bachelorpraktikum.dbvisualization.database;
 
+import com.github.bachelorpraktikum.dbvisualization.database.model.ABSExportable;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.LinkedList;

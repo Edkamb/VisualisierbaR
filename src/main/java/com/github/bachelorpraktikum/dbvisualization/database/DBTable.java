@@ -1,5 +1,6 @@
 package com.github.bachelorpraktikum.dbvisualization.database;
 
+import com.github.bachelorpraktikum.dbvisualization.database.model.Tables;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

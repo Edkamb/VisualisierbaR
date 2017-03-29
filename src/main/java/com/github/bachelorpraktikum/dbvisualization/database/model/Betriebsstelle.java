@@ -1,4 +1,4 @@
-package com.github.bachelorpraktikum.dbvisualization.database;
+package com.github.bachelorpraktikum.dbvisualization.database.model;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

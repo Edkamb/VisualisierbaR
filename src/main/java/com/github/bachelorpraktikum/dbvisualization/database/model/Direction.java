@@ -1,4 +1,4 @@
-package com.github.bachelorpraktikum.dbvisualization.database;
+package com.github.bachelorpraktikum.dbvisualization.database.model;
 
 public enum Direction implements Element {
     None("None", 0),

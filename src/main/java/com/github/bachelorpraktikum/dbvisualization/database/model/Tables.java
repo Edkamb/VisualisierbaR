@@ -1,4 +1,4 @@
-package com.github.bachelorpraktikum.dbvisualization.database;
+package com.github.bachelorpraktikum.dbvisualization.database.model;
 
 import java.util.Collections;
 import java.util.LinkedList;
@@ -46,15 +46,15 @@ public enum Tables {
         this.whereCondition = whereCondition;
     }
 
-    String getName() {
+    public String getName() {
         return name;
     }
 
-    List<String> getColumnNames() {
+    public List<String> getColumnNames() {
         return columnNames;
     }
 
-    Optional<String> getWhereCondition() {
+    public Optional<String> getWhereCondition() {
         return Optional.ofNullable(whereCondition);
     }
 }

@@ -1,4 +1,4 @@
-package com.github.bachelorpraktikum.dbvisualization.database;
+package com.github.bachelorpraktikum.dbvisualization.database.model;
 
 import java.util.Optional;
 

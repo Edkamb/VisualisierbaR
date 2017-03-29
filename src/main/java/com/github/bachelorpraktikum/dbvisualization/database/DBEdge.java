@@ -1,5 +1,9 @@
 package com.github.bachelorpraktikum.dbvisualization.database;
 
+import com.github.bachelorpraktikum.dbvisualization.database.model.ABSExportable;
+import com.github.bachelorpraktikum.dbvisualization.database.model.Element;
+import com.github.bachelorpraktikum.dbvisualization.database.model.Tables;
+import com.github.bachelorpraktikum.dbvisualization.database.model.Vertex;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Iterator;

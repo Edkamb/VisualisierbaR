@@ -1,5 +1,7 @@
-package com.github.bachelorpraktikum.dbvisualization.database;
+package com.github.bachelorpraktikum.dbvisualization.database.model;
 
+import com.github.bachelorpraktikum.dbvisualization.database.DBEdge;
+import com.github.bachelorpraktikum.dbvisualization.database.DBTable;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collections;
