@@ -14,8 +14,8 @@ import java.util.logging.Logger;
 public class ABSExporter {
 
     private final List<ABSExportable> elements;
-    private boolean exportString;
     private final String DEFAULT_FILENAME = "Run.abs";
+    private String exportPath;
 
     ABSExporter() {
         this(new LinkedList<>());
@@ -66,6 +66,30 @@ public class ABSExporter {
         return sb.toString();
     }
 
+    /**
+     * Returns the path where the file has been/will be exported to.
+     *
+     * @return Path for export file
+     */
+    public String getExportPath() {
+        if (exportPath != null) {
+            return exportPath;
+        }
+
+        String filename = ConfigKey.absExportPath.get();
+        if (filename == null) {
+            filename = DEFAULT_FILENAME;
+        }
+
+        exportPath = filename;
+
+        return exportPath;
+    }
+
+    public void setExportPath(String exportPath) {
+        this.exportPath = exportPath;
+    }
+
     private String getExtra() {
         return "";
     }
@@ -81,12 +105,7 @@ public class ABSExporter {
      * @return Whether the writting of the file was successfull
      */
     public boolean export() {
-        String filename = ConfigKey.absExportPath.get();
-        if (filename == null) {
-            filename = DEFAULT_FILENAME;
-        }
-
-        return export(filename);
+        return export(getExportPath());
     }
 
     /**
