@@ -1,7 +1,6 @@
 package com.github.bachelorpraktikum.dbvisualization.database.model;
 
 import com.github.bachelorpraktikum.dbvisualization.database.DBEdge;
-import com.github.bachelorpraktikum.dbvisualization.database.DBTable;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collections;
@@ -11,7 +10,7 @@ import java.util.Optional;
 import java.util.StringJoiner;
 import java.util.logging.Logger;
 
-public class Attribute extends DBTable implements ABSExportable, Element {
+public class Attribute implements ABSExportable, Cloneable, Element {
 
     private final int id;
     private final String title;
@@ -32,6 +31,17 @@ public class Attribute extends DBTable implements ABSExportable, Element {
         title = rs.getString(columnNames.next());
         description = rs.getString(columnNames.next());
         acronym = rs.getString(columnNames.next());
+    }
+
+    @Override
+    protected Object clone() {
+        try {
+            return super.clone();
+        } catch (CloneNotSupportedException ignored) {
+
+        }
+
+        return null;
     }
 
     public int getId() {
