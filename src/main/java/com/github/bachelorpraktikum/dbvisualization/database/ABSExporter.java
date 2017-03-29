@@ -1,5 +1,6 @@
 package com.github.bachelorpraktikum.dbvisualization.database;
 
+import com.github.bachelorpraktikum.dbvisualization.config.ConfigKey;
 import com.github.bachelorpraktikum.dbvisualization.database.model.ABSExportable;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -14,15 +15,13 @@ public class ABSExporter {
 
     private final List<ABSExportable> elements;
     private boolean exportString;
-    private String defaultFilename = "Run.abs";
+    private final String DEFAULT_FILENAME = "Run.abs";
 
     ABSExporter() {
         this(new LinkedList<>());
     }
 
     ABSExporter(List<ABSExportable> elements) {
-        String home = System.getenv("user.home");
-        defaultFilename = String.join(File.pathSeparator, home, "Run.abs");
         this.elements = elements;
     }
 
@@ -56,6 +55,7 @@ public class ABSExporter {
         if (number <= 0) {
             return string;
         }
+
         StringBuilder sb = new StringBuilder(string);
         int charsToGo = 4;
         while (charsToGo > 0) {
@@ -71,12 +71,22 @@ public class ABSExporter {
     }
 
     /**
-     * Writes the exported elements into <code>defaultFilename</code> <tt>~/Run.abs</tt>
+     * <p>If a path is defined in the {@link com.github.bachelorpraktikum.dbvisualization.config.ConfigFile}
+     * via {@link com.github.bachelorpraktikum.dbvisualization.config.ConfigKey#absExportPath}, the
+     * ABS export will be written to that file.</p>
+     *
+     * <p>If no path is defined, <code>DEFAULT_FILENAME</code> will be used as the export
+     * location.</p>
      *
      * @return Whether the writting of the file was successfull
      */
     public boolean export() {
-        return export(defaultFilename);
+        String filename = ConfigKey.absExportPath.get();
+        if (filename == null) {
+            filename = DEFAULT_FILENAME;
+        }
+
+        return export(filename);
     }
 
     /**
