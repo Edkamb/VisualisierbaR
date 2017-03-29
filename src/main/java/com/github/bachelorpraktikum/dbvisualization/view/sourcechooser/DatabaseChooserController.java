@@ -6,6 +6,7 @@ import com.github.bachelorpraktikum.dbvisualization.database.Database;
 import com.github.bachelorpraktikum.dbvisualization.database.DatabaseUser;
 import com.github.bachelorpraktikum.dbvisualization.datasource.DataSource;
 import com.github.bachelorpraktikum.dbvisualization.datasource.DatabaseSource;
+import com.zaxxer.hikari.pool.HikariPool.PoolInitializationException;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -44,6 +45,7 @@ public class DatabaseChooserController implements SourceChooser<DataSource> {
     private IntegerProperty portProperty;
     private ReadOnlyObjectWrapper<URI> completeURIProperty;
     private ObservableBooleanValue uriChosen;
+    private boolean closed;
 
     @FXML
     public void initialize() {
@@ -79,6 +81,7 @@ public class DatabaseChooserController implements SourceChooser<DataSource> {
         });
 
         loadInitialValues();
+        closed = false;
     }
 
     private void loadInitialValues() {
@@ -173,10 +176,25 @@ public class DatabaseChooserController implements SourceChooser<DataSource> {
     }
 
     private Database createDatabase() {
-        Database database = new Database(completeURIProperty.get());
-        DatabaseUser user = database.getUser();
-        while(!database.testConnection()) {
-            DatabaseUser newUser = showLoginWindow();
+        Stage stage = ((Stage) rootPaneDatabase.getScene().getWindow());
+        stage.onCloseRequestProperty()
+            .addListener((observable, oldValue, newValue) -> closed = true);
+        
+        Database database = null;
+        DatabaseUser user = null;
+        while (database == null && !closed) {
+            try {
+                if (user == null) {
+                    database = new Database(completeURIProperty.get());
+                } else {
+                    database = new Database(completeURIProperty.get(), user);
+                }
+            } catch (PoolInitializationException e) {
+                Logger.getLogger(getClass().getName())
+                    .info(String.format("Couldn't connect to db: %s", e.getCause()));
+            } finally {
+                user = showLoginWindow();
+            }
         }
 
         return database;
@@ -205,7 +223,8 @@ public class DatabaseChooserController implements SourceChooser<DataSource> {
         }
 
         LoginController controller = loader.getController();
-        controller.setStage((Stage) rootPaneDatabase.getScene().getWindow());
+        controller.show();
+
         return new DatabaseUser(controller.getUser(), controller.getPassword());
     }
 }
