@@ -96,7 +96,9 @@ public class Database implements AutoCloseable {
                 if (mapping.getVertexID() == vertex.getId()) {
                     for (Attribute attribute : attributes) {
                         if (mapping.getAttributeID() == attribute.getId()) {
-                            vertex.addAttribute(attribute.getClone());
+                            Attribute attr = attribute.getClone();
+                            vertex.addAttribute(attr);
+                            attr.setVertex(vertex);
                         }
                     }
                 }
