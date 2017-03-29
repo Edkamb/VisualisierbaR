@@ -1,4 +1,4 @@
-package com.github.bachelorpraktikum.dbvisualization.view;
+package com.github.bachelorpraktikum.dbvisualization.view.sourcechooser;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -9,7 +9,6 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-import javax.annotation.Nonnull;
 
 public class LoginController {
 
@@ -45,16 +44,13 @@ public class LoginController {
         });
     }
 
-    @Nonnull
     public String getUser() {
         return userProperty.getValue();
     }
 
-    @Nonnull
     public String getPassword() {
         return userProperty.getValue();
     }
-
 
     void setStage(Stage stage) {
         Scene scene = new Scene(rootPane);
