@@ -32,12 +32,64 @@ public class ABSExporter {
         return lineSeperatorJoiner.toString();
     }
 
+    private String leftPad(String string, int number) {
+        StringBuilder sb = new StringBuilder(string);
+        int charsToGo = 4;
+        while (charsToGo > 0) {
+            sb.insert(0, ' ');
+            charsToGo--;
+        }
+
+        return sb.toString();
+    }
+
     private String getExtra() {
         return "";
     }
 
     /**
-     * Writes the abs content (enclosed in a `run` function) to the given stream.
+     * Writes the exported elements into <code>defaultFilename</code> <tt>~/Run.abs</tt>
+     *
+     * @return Whether the writting of the file was successfull
+     */
+    public boolean export() {
+        return export(defaultFilename);
+    }
+
+    /**
+     * Writes the exported elements into <code>filename</code>
+     *
+     * @return Whether the writting of the file was successfull
+     */
+    public boolean export(String filename) {
+        File file = new File(filename);
+        if (file.exists()) {
+            if (!deleteFile(file)) {
+                Logger.getLogger(getClass().getName())
+                    .info(String.format("Couldn't delete file (%s), abort writing.",
+                        file.getAbsolutePath()));
+            }
+        }
+        try (OutputStream outputStream = new FileOutputStream(filename)) {
+            file.createNewFile();
+            export(outputStream);
+        } catch (IOException e) {
+            String message = String.format("Couldn't export to %s: \n%s", filename, e);
+            Logger.getLogger(getClass().getName()).severe(message);
+            return false;
+        }
+
+        return true;
+    }
+
+    private boolean deleteFile(File file) {
+        Logger.getLogger(getClass().getName())
+            .info(String.format("Deleting %s", file.getAbsolutePath()));
+        return file.delete();
+    }
+
+    /**
+     * Writes the abs content (enclosed in a `Run` function) to the given stream.
      *
      * @param outputStream Stream to write abs export to
      * @throws IOException Thrown if writting to the <code>outputStream</code> was unsuccessful
