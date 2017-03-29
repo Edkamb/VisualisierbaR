@@ -107,7 +107,7 @@ public class Betriebsstelle implements ABSExportable, Element {
 
     @Override
     public List<String> exportChildren() {
-        return null;
+        return Collections.emptyList();
     }
 
     /**

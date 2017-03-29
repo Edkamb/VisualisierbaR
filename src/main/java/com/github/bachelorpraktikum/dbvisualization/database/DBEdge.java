@@ -117,7 +117,7 @@ public class DBEdge implements ABSExportable, Element {
 
     @Override
     public List<String> exportChildren() {
-        return null;
+        return Collections.emptyList();
     }
 
     public int getFromID() {
