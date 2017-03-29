@@ -167,6 +167,13 @@ public class Database implements AutoCloseable {
      * @return Complete list of {@link Neighbors}
      */
     public List<Neighbors> getNeighbors() {
+        /*
+        TODO
+         Neighbors is currently not useable as is. It is being changed in the database.
+         The representation in this program already assumes the new database structure.
+         Hence we can't retrieve/use the `Neighbors` table at the moment.
+         */
+        neighbors = new LinkedList<>();
         if (neighbors == null) {
             neighbors = getTableElements(Tables.NEIGHBORS, Neighbors.class);
         }
