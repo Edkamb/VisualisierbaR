@@ -70,19 +70,25 @@ public class Attribute implements ABSExportable, Cloneable, Element {
         String name = getAbsName();
         String exportString = "";
 
-        String hauptsignalFormatString = "HauptSignal %s = new local HauptSignalImpl(%s, %s);";
-        String vorsignalFormatString = "VorSignal %s = new local VorSignalImpl(%s);";
+        String hauptsignalFormatString = "HauptSignal %s_%2$s_%3$s = new local HauptSignalImpl(%2$s, %3$s);";
+        String vorsignalFormatString = "VorSignal %s_%2$s = new local VorSignalImpl(%2$s);";
         if (getId() == FixAttributeValues.HAUPT_UND_VORSIGNAL.getId()
             || getId() == FixAttributeValues.HAUPT_UND_VORSIGNAL_MIT_SPERRSIGNAL.getId()) {
-            if (getEdge() == null) {
-                throw new IllegalArgumentException(
-                    "Attribute(HauptUndVorsignal) needs to be tied to a edge to be exported.");
+            if (!getEdge().isPresent()) {
+                Logger.getLogger(getClass().getName()).severe(
+                    String.format(
+                        "Attribute(HauptUndVorsignal) needs to be tied to a edge to be exported. Vertex (%s) doesn't seem to be tied to an actual edge.",
+                        getVertex()));
+                return "";
             }
 
-            exportString = String.format(hauptsignalFormatString, name, getVertex().getAbsName(),
-                getEdge().getAbsName());
+            String hauptName = String.format("hauptsignal_%s", name);
+            exportString = String
+                .format(hauptsignalFormatString, hauptName, getVertex().getAbsName(),
+                    getEdge().get().getAbsName());
+            String vorName = String.format("vorsignal_%s", name);
             exportString = new StringJoiner(System.lineSeparator()).add(exportString)
-                .add(String.format(vorsignalFormatString, getAbsName(), getVertex().getAbsName()))
+                .add(String.format(vorsignalFormatString, vorName, getVertex().getAbsName()))
                 .toString();
         } else if (getId() == FixAttributeValues.VORSIGNAL.getId()) {
             exportString = String
@@ -97,7 +103,7 @@ public class Attribute implements ABSExportable, Cloneable, Element {
                 if (fixAttribute.classNameLhs() == null) {
                     return exportString;
                 }
-                String formattableString = "%s %s = new local %s(%s);";
+                String formattableString = "%s %s_%4$s = new local %s(%s);";
                 exportString = String
                     .format(formattableString, fixAttribute.classNameLhs(), name,
                         fixAttribute.classNameRhs(), getVertex().getAbsName());
