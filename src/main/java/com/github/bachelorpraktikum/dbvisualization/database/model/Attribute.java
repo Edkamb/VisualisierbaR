@@ -1,5 +1,6 @@
 package com.github.bachelorpraktikum.dbvisualization.database.model;
 
+import com.github.bachelorpraktikum.dbvisualization.config.ConfigKey;
 import com.github.bachelorpraktikum.dbvisualization.database.DBEdge;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -97,6 +98,14 @@ public class Attribute implements ABSExportable, Cloneable, Element {
             Logger.getLogger(getClass().getName())
                 .info("Not creating abs class SPERRSIGNAL, implementation is unknown.");
         } else {
+            ConfigKey experimentalKey = ConfigKey.experimentalAbsExportForAttributes;
+            if (!experimentalKey.getBoolean()) {
+                String message = String.format(
+                    "Not exporting attribute (#%d). Experimental export can be enabled in the config file via %s",
+                    getId(), experimentalKey.getKey());
+                Logger.getLogger(getClass().getName()).info(message);
+                return "";
+            }
             Optional<FixAttributeValues> fixAttributeOpt = FixAttributeValues.get(getId());
             if (fixAttributeOpt.isPresent()) {
                 FixAttributeValues fixAttribute = fixAttributeOpt.get();
