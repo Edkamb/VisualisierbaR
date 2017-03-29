@@ -4,12 +4,12 @@ import com.github.bachelorpraktikum.dbvisualization.database.DBEdge;
 import com.github.bachelorpraktikum.dbvisualization.model.Coordinates;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class Vertex implements ABSExportable, Element {
 
@@ -158,6 +158,6 @@ public class Vertex implements ABSExportable, Element {
 
     @Override
     public List<String> exportChildren() {
-        return Collections.emptyList();
+        return attributes.stream().map(Attribute::export).collect(Collectors.toList());
     }
 }
