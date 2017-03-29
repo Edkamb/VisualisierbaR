@@ -133,4 +133,8 @@ public class Attribute implements ABSExportable, Cloneable, Element {
     DBEdge getEdge() {
         return vertex.getEdge().get();
     }
+
+    public Attribute getClone() {
+        return (Attribute) this.clone();
+    }
 }
