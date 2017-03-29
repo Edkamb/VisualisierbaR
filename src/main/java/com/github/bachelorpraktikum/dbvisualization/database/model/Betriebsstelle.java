@@ -20,7 +20,6 @@ public class Betriebsstelle implements ABSExportable, Element {
     private final String rl100;
     private final int weatherID;
     private final int kennziffer;
-    private Attribute attribute;
     private Set<Vertex> vertices;
 
     public Betriebsstelle(int id, String title, String shortName, String rl100, int weatherID,
@@ -75,17 +74,6 @@ public class Betriebsstelle implements ABSExportable, Element {
 
     public int getKennziffer() {
         return kennziffer;
-    }
-
-    public Attribute getAttribute() {
-        return attribute;
-    }
-
-    /**
-     * @param attribute Attribute for the Betriebsstelle
-     */
-    public void addAttribute(Attribute attribute) {
-        this.attribute = attribute;
     }
 
     @Override
