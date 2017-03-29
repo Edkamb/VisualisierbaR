@@ -3,19 +3,15 @@ package com.github.bachelorpraktikum.dbvisualization.datasource;
 import com.github.bachelorpraktikum.dbvisualization.config.ConfigKey;
 import com.github.bachelorpraktikum.dbvisualization.database.ABSExporter;
 import com.github.bachelorpraktikum.dbvisualization.database.Database;
-import com.github.bachelorpraktikum.dbvisualization.model.Context;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.logging.Logger;
 import javax.annotation.Nonnull;
 
-public class DatabaseSource implements DataSource {
+public class DatabaseSource extends SubprocessSource {
 
     private static final Logger log = Logger.getLogger(DatabaseSource.class.getName());
 
-    private final InputParserSource inputParserSource;
-    private final InputStream inputStream;
     private final String ABS_COMPILER_BINARY_NAME = "absc";
 
     /**
@@ -28,13 +24,12 @@ public class DatabaseSource implements DataSource {
      */
     public DatabaseSource(@Nonnull Database database, String absFilePath)
         throws IOException {
+        super();
         ABSExporter exporter = database.getExporter();
         absFilePath = getAbsFilePath(absFilePath, exporter);
         exportFromDatabase(exporter, absFilePath);
 
-        SubprocessSource inputSource = new SubprocessSource(getAbsExecutable(), absFilePath);
-        this.inputParserSource = inputSource;
-        this.inputStream = inputSource.getInputStream();
+        init(getAbsExecutable(), getAbsFilePath(absFilePath, exporter));
     }
 
     /**
@@ -86,17 +81,5 @@ public class DatabaseSource implements DataSource {
         }
 
         return absToolchain;
-    }
-
-    @Nonnull
-    @Override
-    public Context getContext() {
-        return inputParserSource.getContext();
-    }
-
-    @Override
-    public void close() throws IOException {
-        inputParserSource.close();
-        log.info("Successfully closed Database-Source");
     }
 }
