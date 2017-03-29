@@ -32,8 +32,21 @@ public class ABSExporter {
     }
 
     private String getLineSeperatedElements() {
+        return getLineSeperatedElements(4);
+    }
+
+    private String getLineSeperatedElements(int spacesBeforeLine) {
         StringJoiner lineSeperatorJoiner = new StringJoiner(System.lineSeparator());
         elements.forEach(absExportable -> lineSeperatorJoiner.add(absExportable.export()));
+        elements.forEach(absExportable -> {
+            for (String childrenExport : absExportable.exportChildren()) {
+                if (!childrenExport.isEmpty()) {
+                    for (String sub : childrenExport.split(System.lineSeparator())) {
+                        lineSeperatorJoiner.add(leftPad(sub, spacesBeforeLine));
+                    }
+                }
+            }
+        });
 
         return lineSeperatorJoiner.toString();
     }
