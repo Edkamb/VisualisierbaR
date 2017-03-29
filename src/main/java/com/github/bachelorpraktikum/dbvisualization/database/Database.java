@@ -80,6 +80,31 @@ public class Database implements AutoCloseable {
     }
 
     private void merge() {
+        for (Vertex vertex : vertices) {
+            for (DBEdge edge : edges) {
+                if (edge.setVertex(vertex)) {
+                    if (edge.getTo().isPresent() && edge.getFrom().isPresent()) {
+                        break;
+                    }
+                }
+            }
+            for (Betriebsstelle betriebsstelle : betriebsstellen) {
+                if (vertex.getBetriebsstelleID() == betriebsstelle.getId()) {
+                    vertex.setBetriebsstelle(betriebsstelle);
+                    betriebsstelle.addVertex(vertex);
+                }
+            }
+            for (ObjectAttribute mapping : objectAttributes) {
+                if (mapping.getVertexID() == vertex.getId()) {
+                    for (Attribute attribute : attributes) {
+                        if (mapping.getAttributeID() == attribute.getId()) {
+                            vertex.addAttribute(attribute.getClone());
+                        }
+                    }
+                }
+            }
+        }
+
         edges.addAll(createFreeEdges());
     }
 
