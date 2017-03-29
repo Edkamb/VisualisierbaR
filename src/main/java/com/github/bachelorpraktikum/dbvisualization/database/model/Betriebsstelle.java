@@ -88,7 +88,7 @@ public class Betriebsstelle implements ABSExportable, Element {
     @Override
     public String export() {
         // TODO
-        if (isZugfolge(null)) {
+        if (isZugfolge()) {
             return String.format(ZUGFOLGE_EXPORT, getAbsName());
         }
 
@@ -98,7 +98,7 @@ public class Betriebsstelle implements ABSExportable, Element {
     @Override
     public String getAbsName() {
         String formattableString = "bahnhof_%d";
-        if (isZugfolge(attribute)) {
+        if (isZugfolge()) {
             formattableString = "zugfolge_%d";
         }
 
@@ -114,19 +114,18 @@ public class Betriebsstelle implements ABSExportable, Element {
      * Checks whether the Betriebsstelle is a Zugfolge. This is hardcoded since it's the same way in
      * the database. The ID for a Zugfolge is defined in `FixAttributeValues`.
      *
-     * @param attribute Attribute to check ID against
      * @return Whether the element is a `Zugfolge`
      */
-    public boolean isZugfolge(Attribute attribute) {
-        if (this.attribute != null) {
-            attribute = this.attribute;
-        }
-        if (attribute == null) {
-            throw new IllegalArgumentException(
-                "An attribute has to be provided to check whether the Betriebsstelle is a Bahnhof or a Zugfolge.");
+    boolean isZugfolge() {
+        for (Vertex vertex : getVertices()) {
+            for (Attribute attribute : vertex.getAttributes()) {
+                if (attribute.getId() == FixAttributeValues.ZUGFOLGE.getId()) {
+                    return true;
+                }
+            }
         }
 
-        return attribute.getId() == FixAttributeValues.ZUGFOLGE.getId();
+        return false;
     }
 
     public Set<Vertex> getVertices() {
