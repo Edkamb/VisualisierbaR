@@ -23,6 +23,7 @@ public class Database implements AutoCloseable {
     private List<ObjectObjectAttribute> objectObjectAttributes;
     private List<Vertex> vertices;
     private List<DBEdge> edges;
+    private ABSExporter exporter;
 
     /**
      * Creates a database connection with the given URI. Tries to load the {@link DatabaseUser
@@ -57,6 +58,8 @@ public class Database implements AutoCloseable {
         config.addDataSourceProperty("prepStmtCacheSize", "250");
         config.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");
         dataSource = new HikariDataSource(config);
+
+        exporter = new ABSExporter();
     }
 
     private void getAll() {
