@@ -3,7 +3,7 @@ package com.github.bachelorpraktikum.dbvisualization.database;
 import java.util.List;
 import java.util.StringJoiner;
 
-public class ABSExporter implements ABSExportable {
+public class ABSExporter {
 
     private final List<ABSExportable> elements;
 
@@ -27,20 +27,6 @@ public class ABSExporter implements ABSExportable {
         return "";
     }
 
-    @Override
-    public String export() {
-        return String
-            .format(getEnclosingFunctionFormattable(), getLineSeperatedElements(), getExtra());
-    }
-
-    @Override
-    public String getAbsName() {
-        return null;
-    }
-
-    @Override
-    public List<String> exportChildren() {
-        return null;
     }
 
     public List<ABSExportable> getElements() {
