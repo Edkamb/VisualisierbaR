@@ -31,7 +31,7 @@ public class Betriebsstelle implements ABSExportable, Element {
         this.kennziffer = kennziffer;
     }
 
-    Betriebsstelle(ResultSet rs) throws SQLException {
+    public Betriebsstelle(ResultSet rs) throws SQLException {
         Iterator<String> columnNames = Tables.BETRIEBSSTELLEN.getColumnNames().iterator();
         id = rs.getInt(columnNames.next());
         title = rs.getString(columnNames.next());
