@@ -1,4 +1,4 @@
-package com.github.bachelorpraktikum.dbvisualization.database;
+package com.github.bachelorpraktikum.dbvisualization.database.model;
 
 import com.github.bachelorpraktikum.dbvisualization.database.model.ABSExportable;
 import com.github.bachelorpraktikum.dbvisualization.database.model.Element;

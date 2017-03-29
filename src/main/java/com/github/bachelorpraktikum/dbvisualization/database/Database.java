@@ -3,6 +3,7 @@ package com.github.bachelorpraktikum.dbvisualization.database;
 import com.github.bachelorpraktikum.dbvisualization.database.model.ABSExportable;
 import com.github.bachelorpraktikum.dbvisualization.database.model.Attribute;
 import com.github.bachelorpraktikum.dbvisualization.database.model.Betriebsstelle;
+import com.github.bachelorpraktikum.dbvisualization.database.model.DBEdge;
 import com.github.bachelorpraktikum.dbvisualization.database.model.Neighbors;
 import com.github.bachelorpraktikum.dbvisualization.database.model.ObjectAttribute;
 import com.github.bachelorpraktikum.dbvisualization.database.model.ObjectObjectAttribute;
