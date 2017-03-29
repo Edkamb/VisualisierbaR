@@ -37,7 +37,8 @@ public class ABSExporter {
 
     private String getLineSeperatedElements(int spacesBeforeLine) {
         StringJoiner lineSeperatorJoiner = new StringJoiner(System.lineSeparator());
-        elements.forEach(absExportable -> lineSeperatorJoiner.add(absExportable.export()));
+        elements.forEach(absExportable -> lineSeperatorJoiner
+            .add(leftPad(absExportable.export(), spacesBeforeLine)));
         elements.forEach(absExportable -> {
             for (String childrenExport : absExportable.exportChildren()) {
                 if (!childrenExport.isEmpty()) {
@@ -52,6 +53,9 @@ public class ABSExporter {
     }
 
     private String leftPad(String string, int number) {
+        if (number <= 0) {
+            return string;
+        }
         StringBuilder sb = new StringBuilder(string);
         int charsToGo = 4;
         while (charsToGo > 0) {
