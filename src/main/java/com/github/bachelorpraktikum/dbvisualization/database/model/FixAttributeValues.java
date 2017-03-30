@@ -9,7 +9,8 @@ enum FixAttributeValues {
     VORSIGNAL(3, "VorSignal", null),
     SPERRSIGNAL(4, "SperrSignal", null),
     HAUPT_UND_VORSIGNAL(5, null, null),
-    HAUPT_UND_VORSIGNAL_MIT_SPERRSIGNAL(6, null, null);
+    HAUPT_UND_VORSIGNAL_MIT_SPERRSIGNAL(6, null, null),
+    WEICHEN_PUNKT(32, "WeichenPunkt", null);
 
     private final int id;
     private final String lhs;
