@@ -18,6 +18,7 @@ public class DatabaseSource extends SubprocessSource {
      * Creates a {@link Database}-Source that reads info from the database, compiles the ABS file
      * and reads the output.
      *
+     * @param database Open database connection
      * @param absFilePath the path to the *.abs file which has to be compiled
      * @throws IOException if an error during the abs export occured
      * @throws IOException if the subprocess can't be started

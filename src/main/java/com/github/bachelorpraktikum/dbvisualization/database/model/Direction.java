@@ -41,7 +41,7 @@ public enum Direction implements Element {
     /**
      * Return a direction based on the numerical value
      *
-     * @param index
+     * @param index Index for the direction to retrieve
      * @return Corresponding direction, if found, null otherwise
      * @throws IllegalArgumentException if numericalValue is larger than the enum
      */

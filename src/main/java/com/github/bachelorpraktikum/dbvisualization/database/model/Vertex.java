@@ -204,7 +204,7 @@ public class Vertex implements ABSExportable, Element {
     /**
      * Sets the {@link DBEdge edge} this vertex is on
      *
-     * @param edge
+     * @param edge Edge where the vertex is on
      */
     public void setEdge(DBEdge edge) {
         this.edge = edge;

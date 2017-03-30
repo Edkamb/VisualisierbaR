@@ -27,7 +27,7 @@ public class Attribute implements ABSExportable, Cloneable, Element {
 
     /**
      * Creates an Attribute constructed from an SQL ResultSet with the column names
-     * defined in {@link Tables#EDGES}</p>
+     * defined in {@link Tables#ATTRIBUTES}
      *
      * @param rs ResultSet to get details from
      * @throws SQLException if an error during element retrievel from the {@link ResultSet} occurs

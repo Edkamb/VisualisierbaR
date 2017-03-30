@@ -134,8 +134,10 @@ public class ABSExporter {
     }
 
     /**
-     * Writes the exported elements into <code>filename</code>
+     * Writes the exported elements into <code>filename</code>.
+     * If the file already exists, it will be deleted beforehand.
      *
+     * @param filename File which will be opened and written to.
      * @return Whether the writting of the file was successfull
      */
     public boolean export(String filename) {

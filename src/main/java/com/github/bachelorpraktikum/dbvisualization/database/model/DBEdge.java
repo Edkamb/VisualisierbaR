@@ -36,7 +36,7 @@ public class DBEdge implements ABSExportable, Element {
 
     /**
      * Creates an edge constructed from an SQL ResultSet with the column names defined
-     * in {@link Tables#EDGES}</p>
+     * in {@link Tables#EDGES}
      *
      * @param rs ResultSet to get details from
      * @throws SQLException if an error during element retrievel from the {@link ResultSet} occurs

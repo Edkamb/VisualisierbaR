@@ -155,6 +155,8 @@ public class Database implements AutoCloseable {
      * through {@link Neighbors} which hold 2 vertices where the edge is connected to. </p>
      *
      * <p> The wayNumber for these edges is -1. </p>
+     *
+     * @return List of free edges (created via {@link Neighbors}).
      */
     public List<DBEdge> createFreeEdges() {
         List<Neighbors> neighbors = getNeighbors();
@@ -338,7 +340,7 @@ public class Database implements AutoCloseable {
     /**
      * Returns the {@link DatabaseUser user} the database is connected with.
      *
-     * @return
+     * @return The current database user
      */
     public DatabaseUser getUser() {
         return user;
@@ -348,7 +350,7 @@ public class Database implements AutoCloseable {
      * Set the {@link DatabaseUser user} and re-initialize the database connection via {@link
      * #init()}
      *
-     * @param user
+     * @param user New database user
      */
     public void setUser(DatabaseUser user) {
         this.user = user;

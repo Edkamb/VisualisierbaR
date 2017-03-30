@@ -34,7 +34,7 @@ public class Betriebsstelle implements ABSExportable, Element {
 
     /**
      * Creates a <tt>Betriebsstelle</tt> constructed from an SQL ResultSet with the column names
-     * defined in {@link Tables#EDGES}</p>
+     * defined in {@link Tables#BETRIEBSSTELLEN}
      *
      * @param rs ResultSet to get details from
      * @throws SQLException if an error during element retrievel from the {@link ResultSet} occurs
