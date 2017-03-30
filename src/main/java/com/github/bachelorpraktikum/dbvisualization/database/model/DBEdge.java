@@ -79,7 +79,7 @@ public class DBEdge implements ABSExportable, Element {
 
     /**
      * Get the length of the edge
-     * Calculates the length with {@link DBEdge#setLength()} if the current length is <= 0.
+     * Calculates the length with {@link DBEdge#setLength()} if the current length is lower/equal 0.
      *
      * @return Length of the edge
      */
