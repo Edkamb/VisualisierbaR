@@ -175,7 +175,8 @@ public class DatabaseChooserController implements SourceChooser<DataSource> {
     @Nonnull
     @Override
     public DataSource getResource() throws IOException {
-        Database database = createDatabase();
+        Stage stage = ((Stage) rootPaneDatabase.getScene().getWindow());
+        Database database = createDatabase(stage);
         if (database == null) {
             throw new IllegalStateException(
                 "Session was closed by user before a valid connection could be established. Can't read from database with current configuration.");
@@ -183,13 +184,13 @@ public class DatabaseChooserController implements SourceChooser<DataSource> {
         return new DatabaseSource(database, null);
     }
 
-    private Database createDatabase() {
-        Stage stage = ((Stage) rootPaneDatabase.getScene().getWindow());
+    private Database createDatabase(Stage stage) {
         stage.setOnHiding(event -> closed = true);
 
         Database database = null;
         DatabaseUser user = null;
-        while (database == null && !closed) {
+        boolean loginWasClosed = false;
+        while (database == null && !closed && !loginWasClosed) {
             try {
                 if (user == null) {
                     database = new Database(completeURIProperty.get());
@@ -202,6 +203,7 @@ public class DatabaseChooserController implements SourceChooser<DataSource> {
             } finally {
                 if (database == null && !closed) {
                     user = showLoginWindow();
+                    loginWasClosed = user == null;
                 }
             }
         }
@@ -233,6 +235,9 @@ public class DatabaseChooserController implements SourceChooser<DataSource> {
 
         LoginController controller = loader.getController();
         controller.show();
+        if (controller.manuallyClosed()) {
+            return null;
+        }
 
         return new DatabaseUser(controller.getUser(), controller.getPassword());
     }
