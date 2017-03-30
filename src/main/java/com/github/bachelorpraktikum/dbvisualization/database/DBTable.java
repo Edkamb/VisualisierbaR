@@ -8,13 +8,20 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Logger;
 
-public class DBTable {
+class DBTable {
 
     private Tables table;
     private String select_query_string = "SELECT %s FROM %s%s;";
     private PreparedStatement select_query_statement;
     private ResultSet select_result;
 
+    /**
+     * Creates a database table with the given connection and {@link Tables table}.
+     *
+     * @param connection Connection to use for queries.
+     * @param table {@link Tables table} to get information from
+     * @throws SQLException In case of a failed statement creation.
+     */
     public DBTable(Connection connection, Tables table) throws SQLException {
         this.table = table;
         String where = "";
@@ -67,6 +74,11 @@ public class DBTable {
         return getColumnNames().stream().reduce((s, s1) -> s + ", " + s1).get();
     }
 
+    /**
+     * Returns the name
+     *
+     * @return Name
+     */
     String getName() {
         return table.getName();
     }

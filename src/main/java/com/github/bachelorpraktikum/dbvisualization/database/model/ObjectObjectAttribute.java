@@ -27,6 +27,13 @@ public class ObjectObjectAttribute implements Element {
         attributeID = attribute.getId();
     }
 
+    /**
+     * Creates a binding for 2 objects and an attribute from an SQL ResultSet with the column names
+     * defined in {@link Tables#OBJECT_OBJECT_ATTRIBUTES}.
+     *
+     * @param rs ResultSet to get details from
+     * @throws SQLException if an error during element retrievel from the {@link ResultSet} occurs
+     */
     public ObjectObjectAttribute(ResultSet rs) throws SQLException {
         Iterator<String> columnNames = Tables.OBJECT_OBJECT_ATTRIBUTES.getColumnNames().iterator();
         id = rs.getInt(columnNames.next());
@@ -35,27 +42,57 @@ public class ObjectObjectAttribute implements Element {
         attributeID = rs.getInt(columnNames.next());
     }
 
+    /**
+     * Returns the id
+     *
+     * @return ID
+     */
     public int getId() {
         return id;
     }
 
-    public Optional<Vertex> getObject1() {
+    /**
+     * Get the first referenced {@link Vertex}
+     *
+     * @return First {@link Vertex}
+     */
+    public Optional<Vertex> getVertex1() {
         return Optional.ofNullable(object1);
     }
 
-    public Optional<Vertex> getObject2() {
+    /**
+     * Get the second referenced {@link Vertex}
+     *
+     * @return Second {@link Vertex}
+     */
+    public Optional<Vertex> getVertex2() {
         return Optional.ofNullable(object2);
     }
 
+    /**
+     * Get the associated {@link Attribute attribute}
+     *
+     * @return {@link Attribute}
+     */
     public Optional<Attribute> getAttribute() {
         return Optional.ofNullable(attribute);
     }
 
-    public int getObject1ID() {
+    /**
+     * Returns the <tt>ID</tt> of the first {@link Vertex}
+     *
+     * @return <tt>ID</tt> of the first {@link Vertex}
+     */
+    public int getVertex1ID() {
         return object1ID;
     }
 
-    public int getObject2ID() {
+    /**
+     * Returns the <tt>ID</tt> of the second {@link Vertex}
+     *
+     * @return <tt>ID</tt> of the second {@link Vertex}
+     */
+    public int getVertex2ID() {
         return object2ID;
     }
 
@@ -63,9 +100,13 @@ public class ObjectObjectAttribute implements Element {
         return attributeID;
     }
 
+    /**
+     * <p>Turns this mapping into a string with all associated elements.</p>
+     * <p>Has the following form: '{%d | [%s] | [%s] | [%s]}'</p>
+     */
     public String toString() {
-        String formatable = "%d | [%s] | [%s] | [%s]";
+        String formatable = "{%d | [%s] | [%s] | [%s]}";
         return String
-            .format(formatable, getObject1(), getObject1ID(), getObject2(), getAttribute());
+            .format(formatable, getVertex1(), getVertex1ID(), getVertex2(), getAttribute());
     }
 }

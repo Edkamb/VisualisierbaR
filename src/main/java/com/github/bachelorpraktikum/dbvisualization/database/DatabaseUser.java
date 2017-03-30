@@ -14,14 +14,29 @@ public class DatabaseUser {
         this.password = password;
     }
 
+    /**
+     * Get the username
+     *
+     * @return Username
+     */
     String getUser() {
         return user;
     }
 
+    /**
+     * Get the password
+     *
+     * @return password
+     */
     String getPassword() {
         return password;
     }
 
+    /**
+     * Tries to retrieve the user from the {@link ConfigFile}.
+     *
+     * @return User from the {@link ConfigFile}, empty Optional otherwise.
+     */
     public static Optional<DatabaseUser> fromConfig() {
         String userKey = ConfigKey.databaseUsername.getKey();
         String passKey = ConfigKey.databasePassword.getKey();

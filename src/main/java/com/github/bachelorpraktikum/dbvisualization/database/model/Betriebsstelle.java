@@ -32,6 +32,13 @@ public class Betriebsstelle implements ABSExportable, Element {
         this.kennziffer = kennziffer;
     }
 
+    /**
+     * Creates a <tt>Betriebsstelle</tt> constructed from an SQL ResultSet with the column names
+     * defined in {@link Tables#EDGES}</p>
+     *
+     * @param rs ResultSet to get details from
+     * @throws SQLException if an error during element retrievel from the {@link ResultSet} occurs
+     */
     public Betriebsstelle(ResultSet rs) throws SQLException {
         Iterator<String> columnNames = Tables.BETRIEBSSTELLEN.getColumnNames().iterator();
         id = rs.getInt(columnNames.next());
@@ -52,30 +59,66 @@ public class Betriebsstelle implements ABSExportable, Element {
         return id != 0;
     }
 
+    /**
+     * Returns the id
+     *
+     * @return ID
+     */
     public int getId() {
         return id;
     }
 
+    /**
+     * Returns the title
+     *
+     * @return Title
+     */
     public String getTitle() {
         return title;
     }
 
+    /**
+     * Returns the short name
+     *
+     * @return Short name
+     */
     public String getShortName() {
         return shortName;
     }
 
+    /**
+     * Returns the <tt>Rl100</tt>
+     *
+     * @return Rl100
+     */
     public String getRl100() {
         return rl100;
     }
 
+    /**
+     * Returns the weather ID
+     *
+     * @return Weather ID
+     */
     public int getWeatherID() {
         return weatherID;
     }
 
+    /**
+     * Returns the <tt>Kennziffer</tt>
+     *
+     * @return <tt>Kennziffer</tt>
+     */
     public int getKennziffer() {
         return kennziffer;
     }
 
+    /**
+     * <p>{@inheritDoc}</p>
+     *
+     * <p>The <tt>Betriebsstelle</tt> will be exported differently, depending on whether it's a
+     * <tt>{@link FixAttributeValues#ZUGFOLGE Zugfolge}</tt> or a <tt>Bahnhof</tt></p>
+     */
     @Override
     public String export() {
         // TODO
@@ -86,6 +129,11 @@ public class Betriebsstelle implements ABSExportable, Element {
         return String.format(BAHNHOF_EXPORT, getAbsName());
     }
 
+    /**
+     * <p>{@inheritDoc}</p> <p>In the case of a <tt>{@link FixAttributeValues#ZUGFOLGE
+     * Zugfolge}</tt> the following form is used: 'zufolge_{id}'</p> <p>In the case of a
+     * <tt>Bahnhof</tt> the following form is used: 'bahnhof_{id}'</p>
+     */
     @Override
     public String getAbsName() {
         String formattableString = "bahnhof_%d";
@@ -96,6 +144,10 @@ public class Betriebsstelle implements ABSExportable, Element {
         return String.format(formattableString, getId());
     }
 
+    /**
+     * <p>{@inheritDoc}</p>
+     * This is an empty list.
+     */
     @Override
     public List<String> exportChildren() {
         return Collections.emptyList();
@@ -119,18 +171,37 @@ public class Betriebsstelle implements ABSExportable, Element {
         return false;
     }
 
+    /**
+     * Returns all {@link Vertex vertices} that are in this <tt>Betriebsstelle</tt>
+     *
+     * @return List of {@link Vertex vertices} in this <tt>Betriebsstelle</tt>
+     */
     public Set<Vertex> getVertices() {
         return vertices;
     }
 
+    /**
+     * Add a {@link Vertex} which is in this <tt>Betriebsstelle</tt>
+     *
+     * @param vertex Vertex in this <tt>Betriebsstelle</tt>
+     */
     public void addVertex(Vertex vertex) {
         vertices.add(vertex);
     }
 
+    /**
+     * Add a list of {@link Vertex vertices} that are in this <tt>Betriebsstelle</tt>.
+     *
+     * @param vertices List of {@link Vertex vertices} in this <tt>Betriebsstelle</tt>
+     */
     public void addAllVertices(Collection<Vertex> vertices) {
         this.vertices.addAll(vertices);
     }
 
+    /**
+     * <p>Turns this <tt>Betriebsstelle</tt> into a string with all associated elements.</p>
+     * <p>Has the following form: '{%d | %s | %s | %s | %d | %d | %d | {%s}}'</p>
+     */
     @Override
     public String toString() {
         String formatable = "{%d | %s | %s | %s | %d | %d | #%d | {%s}}";

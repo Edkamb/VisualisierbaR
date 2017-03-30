@@ -1,5 +1,6 @@
 package com.github.bachelorpraktikum.dbvisualization.database.model;
 
+import com.github.bachelorpraktikum.dbvisualization.database.Database;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collections;
@@ -33,6 +34,13 @@ public class DBEdge implements ABSExportable, Element {
         vertices = new HashSet<>();
     }
 
+    /**
+     * Creates an edge constructed from an SQL ResultSet with the column names defined
+     * in {@link Tables#EDGES}</p>
+     *
+     * @param rs ResultSet to get details from
+     * @throws SQLException if an error during element retrievel from the {@link ResultSet} occurs
+     */
     public DBEdge(ResultSet rs) throws SQLException {
         Iterator<String> columnNames = Tables.EDGES.getColumnNames().iterator();
         id = rs.getInt(columnNames.next());
@@ -42,35 +50,78 @@ public class DBEdge implements ABSExportable, Element {
         vertices = new HashSet<>();
     }
 
+    /**
+     * Returns the id
+     *
+     * @return ID
+     */
     public int getId() {
         return id;
     }
 
+    /**
+     * Get the {@link Vertex} the edge starts from.
+     *
+     * @return {@link Vertex} the edge starts from
+     */
     public Optional<Vertex> getFrom() {
         return Optional.ofNullable(from);
     }
 
+    /**
+     * Get the {@link Vertex} the edge ends on.
+     *
+     * @return {@link Vertex} the edge ends on
+     */
     public Optional<Vertex> getTo() {
         return Optional.ofNullable(to);
     }
 
+    /**
+     * Get the length of the edge
+     * Calculates the length with {@link DBEdge#setLength()} if the current length is <= 0.
+     *
+     * @return Length of the edge
+     */
     public double getLength() {
+        if (length <= 0) {
+            setLength();
+        }
         return length;
     }
 
+    /**
+     * Manually set the length for this edge.
+     *
+     * @param length New length for the edge
+     */
     public void setLength(double length) {
         this.length = length;
     }
 
+    /**
+     * Calculates the length by using the {@link Vertex#getKilometer()} values of the {@link
+     * DBEdge#getFrom() from} and {@link DBEdge#getTo() to} vertices.
+     */
     public void setLength() {
-        length = (Math.max(from.getLength(), to.getLength()) -
-            Math.min(from.getLength(), to.getLength()));
+        length = (Math.max(from.getKilometer(), to.getKilometer()) -
+            Math.min(from.getKilometer(), to.getKilometer()));
     }
 
+    /**
+     * Set the <tt>from</tt> {@link Vertex}
+     *
+     * @param from <tt>from</tt> {@link Vertex}
+     */
     public void setVertexFrom(Vertex from) {
         this.from = from;
     }
 
+    /**
+     * Set the <tt>to</tt> {@link Vertex}
+     *
+     * @param to <tt>to</tt> {@link Vertex}
+     */
     public void setVertexTo(Vertex to) {
         this.to = to;
     }
@@ -100,6 +151,12 @@ public class DBEdge implements ABSExportable, Element {
         return success;
     }
 
+    /**
+     * Returns the way number
+     * This is <tt>-1</tt> if this is a free edge({@link DBEdge#isFree()}).
+     *
+     * @return Way number
+     */
     public int getWayNumber() {
         return wayNumber;
     }
@@ -132,36 +189,74 @@ public class DBEdge implements ABSExportable, Element {
         return new Double(length * 1000).intValue();
     }
 
+    /**
+     * <p>{@inheritDoc}</p>
+     * Form: edge_{id}
+     */
     @Override
     public String getAbsName() {
         return String.format("edge_%d", getId());
     }
 
+    /**
+     * <p>{@inheritDoc}</p>
+     * This is an empty list.
+     */
     @Override
     public List<String> exportChildren() {
         return Collections.emptyList();
     }
 
+    /**
+     * Returns the ID of the <tt>from</tt> {@link Vertex}.
+     *
+     * @return ID of the <tt>from</tt> {@link Vertex}
+     */
     public int getFromID() {
         return fromID;
     }
 
+    /**
+     * Returns the ID of the <tt>to</tt> {@link Vertex}.
+     *
+     * @return ID of the <tt>to</tt> {@link Vertex}
+     */
     public int getToID() {
         return toID;
     }
 
+    /**
+     * Returns all {@link Vertex vertices} which are on this edge.
+     *
+     * @return All {@link Vertex vertices} on this edge
+     */
     public Set<Vertex> getVertices() {
         return vertices;
     }
 
+    /**
+     * Add a {@link Vertex} to this edge
+     *
+     * @param vertex Additional {@link Vertex} on this edge
+     * @return False if the {@link Vertex} were already present, true otherwise
+     */
     public boolean addVertex(Vertex vertex) {
         return vertices.add(vertex);
     }
 
+    /**
+     * Whether the edge is on a free track (manually created {@link Database#createFreeEdges()})
+     *
+     * @return Whether the edge is on a free track
+     */
     public boolean isFree() {
         return wayNumber == -1;
     }
 
+    /**
+     * <p>Turns this mapping into a string with all associated elements.</p>
+     * <p>Has the following form: '{%d | [%s] | [%s] | %d | %d | %d | {%s}}'</p>
+     */
     @Override
     public String toString() {
         String formatable = "{%d | [%s] | [%s] | %d | %f | #%d | {%s}}";

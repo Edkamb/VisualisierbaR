@@ -39,6 +39,13 @@ public enum Tables {
     private List<String> columnNames;
     private String whereCondition;
 
+    /**
+     * Creates a table with the given attributes
+     *
+     * @param name Name for the table
+     * @param columnNames Column names to use
+     * @param whereCondition Condition to use
+     */
     Tables(String name, String[] columnNames, String whereCondition) {
         this.columnNames = new LinkedList<>();
         Collections.addAll(this.columnNames, columnNames);
@@ -46,18 +53,37 @@ public enum Tables {
         this.whereCondition = whereCondition;
     }
 
+    /**
+     * Returs the name of the table
+     *
+     * @return Name of the table
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Returns a list of column names
+     *
+     * @return List of column names
+     */
     public List<String> getColumnNames() {
         return columnNames;
     }
 
+    /**
+     * Returns the condition for the table
+     *
+     * @return Condition for the table
+     */
     public Optional<String> getWhereCondition() {
         return Optional.ofNullable(whereCondition);
     }
 
+    /**
+     * Prints the name, column names and where condition in the following form: <tt>%s | [%s] |
+     * %s</tt>
+     */
     @Override
     public String toString() {
         String formatable = "%s | [%s] | %s";

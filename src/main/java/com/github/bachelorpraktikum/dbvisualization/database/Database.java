@@ -68,6 +68,12 @@ public class Database implements AutoCloseable {
         init();
     }
 
+    /**
+     * Try to connect to the database
+     *
+     * @throws com.zaxxer.hikari.pool.HikariPool.PoolInitializationException if the connection
+     * wasn't successful.
+     */
     private void init() {
         HikariConfig config = new HikariConfig();
         config.setJdbcUrl(uri.toString().replace("http://", "jdbc:mysql://"));
@@ -93,6 +99,10 @@ public class Database implements AutoCloseable {
         exporter = new ABSExporter(exportableElements);
     }
 
+    /**
+     * Retrieve all {@link Tables} from the database.
+     * Add the {@Link ABSExportable exportable elements} to {@link #exportableElements}
+     */
     private void getAll() {
         getAttributes();
         getObjectAttributes();
@@ -103,6 +113,11 @@ public class Database implements AutoCloseable {
         getObjectObjectAtributes();
     }
 
+    /**
+     * <p>Associate the objects from the database with each other.</p> <p>e.g.:</p> <p>Set all
+     * {@link Attribute attributes} which correspond to a {@link Vertex} via the {@link
+     * ObjectAttribute} table.</p>
+     */
     private void merge() {
         for (Vertex vertex : vertices) {
             for (DBEdge edge : edges) {
@@ -303,19 +318,38 @@ public class Database implements AutoCloseable {
         return elements;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void close() throws Exception {
         dataSource.close();
     }
 
+    /**
+     * Returns the {@link ABSExporter exporter} for the database
+     *
+     * @return {@link ABSExporter exporter}
+     */
     public ABSExporter getExporter() {
         return exporter;
     }
 
+    /**
+     * Returns the {@link DatabaseUser user} the database is connected with.
+     *
+     * @return
+     */
     public DatabaseUser getUser() {
         return user;
     }
 
+    /**
+     * Set the {@link DatabaseUser user} and re-initialize the database connection via {@link
+     * #init()}
+     *
+     * @param user
+     */
     public void setUser(DatabaseUser user) {
         this.user = user;
         init();

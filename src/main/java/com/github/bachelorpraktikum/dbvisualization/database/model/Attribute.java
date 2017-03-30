@@ -25,6 +25,13 @@ public class Attribute implements ABSExportable, Cloneable, Element {
         this.acronym = acronym;
     }
 
+    /**
+     * Creates an Attribute constructed from an SQL ResultSet with the column names
+     * defined in {@link Tables#EDGES}</p>
+     *
+     * @param rs ResultSet to get details from
+     * @throws SQLException if an error during element retrievel from the {@link ResultSet} occurs
+     */
     public Attribute(ResultSet rs) throws SQLException {
         Iterator<String> columnNames = Tables.ATTRIBUTES.getColumnNames().iterator();
         id = rs.getInt(columnNames.next());
@@ -33,6 +40,11 @@ public class Attribute implements ABSExportable, Cloneable, Element {
         acronym = rs.getString(columnNames.next());
     }
 
+    /**
+     * Returns a clone of this object
+     *
+     * @return Clone, null if the clone failed.
+     */
     @Override
     protected Object clone() {
         try {
@@ -44,22 +56,48 @@ public class Attribute implements ABSExportable, Cloneable, Element {
         return null;
     }
 
+    /**
+     * Returns the id
+     *
+     * @return ID
+     */
     public int getId() {
         return id;
     }
 
+    /**
+     * Returns the title
+     *
+     * @return Title
+     */
     public Optional<String> getTitle() {
         return Optional.ofNullable(title);
     }
 
+    /**
+     * Returns the description
+     *
+     * @return Description
+     */
     public String getDescription() {
         return description;
     }
 
+    /**
+     * Returns the acronym
+     *
+     * @return Acronym
+     */
     public String getAcronym() {
         return acronym;
     }
 
+    /**
+     * <p>{@inheritDoc}</p> <p>Creates the attributes depending on the type of the attribute. The
+     * types are defined in {@link FixAttributeValues}. If no explicit case for the attribute is
+     * defined in this function, the function can guess/use the values put into {@link
+     * FixAttributeValues}.</p>
+     */
     @Override
     public String export() {
         if (vertex == null) {
@@ -124,6 +162,11 @@ public class Attribute implements ABSExportable, Cloneable, Element {
         return exportString;
     }
 
+    /**
+     * <p>{@inheritDoc}</p>
+     * <p>Tries to use the {@link #getTitle() title} as name, uses the {@link #getId() id}
+     * otherwise. Spaces in the title will be replaced with underscores. Form: '{title|id}_id'
+     */
     @Override
     public String getAbsName() {
         String name_prefix = getTitle().orElse(String.valueOf(getId())).replace(" ", "_")
@@ -131,27 +174,57 @@ public class Attribute implements ABSExportable, Cloneable, Element {
         return String.format("%s_%d", name_prefix, getId());
     }
 
+    /**
+     * <p>{@inheritDoc}</p>
+     * <p>An empty list in this case</p>
+     *
+     * @return Empty list
+     */
     @Override
     public List<String> exportChildren() {
         return Collections.emptyList();
     }
 
+    /**
+     * Set a {@link Vertex} for this attribute
+     *
+     * @param vertex Corresponding {@link Vertex}
+     */
     public void setVertex(Vertex vertex) {
         this.vertex = vertex;
     }
 
+    /**
+     * Returns the associated {@link Vertex}
+     *
+     * @return Associated {@link Vertex}
+     */
     Vertex getVertex() {
         return vertex;
     }
 
+    /**
+     * Returns the associated {@link DBEdge edge}
+     *
+     * @return Associated {@link DBEdge edge}
+     */
     Optional<DBEdge> getEdge() {
         return vertex.getEdge();
     }
 
+    /**
+     * Provide a public method to retrieve the clone which is constructed via {@link #clone()}
+     *
+     * @return Clone of the attribute, null if cloning failed.
+     */
     public Attribute getClone() {
         return (Attribute) this.clone();
     }
 
+    /**
+     * <p>Turns this <tt>Betriebsstelle</tt> into a string with all associated elements.</p>
+     * <p>Has the following form: '{%d | %s | %s | %s | [%s] | {%s}}'</p>
+     */
     @Override
     public String toString() {
         String formatable = "{%d | %s | %s | %s | [%s] | {%s}}";

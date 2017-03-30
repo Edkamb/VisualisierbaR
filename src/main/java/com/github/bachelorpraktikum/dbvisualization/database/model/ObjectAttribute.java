@@ -26,6 +26,13 @@ public class ObjectAttribute implements Element {
         this.value = value;
     }
 
+    /**
+     * Creates a binding for a {@link Vertex} and an {@link Attribute} from an SQL ResultSet with
+     * the column names defined in {@link Tables#OBJECT_ATTRIBUTES}.
+     *
+     * @param rs ResultSet to get details from
+     * @throws SQLException if an error during element retrievel from the {@link ResultSet} occurs
+     */
     public ObjectAttribute(ResultSet rs) throws SQLException {
         Iterator<String> columnNames = Tables.OBJECT_ATTRIBUTES.getColumnNames().iterator();
         id = rs.getInt(columnNames.next());
@@ -35,36 +42,75 @@ public class ObjectAttribute implements Element {
         value = rs.getString(columnNames.next());
     }
 
+    /**
+     * Returns the id
+     *
+     * @return ID
+     */
     public int getId() {
         return id;
     }
 
+    /**
+     * Get type of the mapping
+     *
+     * @return Type
+     */
     public String getType() {
         return type;
     }
 
+    /**
+     * Get corresponding {@link Vertex}
+     *
+     * @return {@link Vertex}
+     */
     public Optional<Vertex> getVertex() {
         return Optional.ofNullable(object);
     }
 
+    /**
+     * Get ID from the corresponding {@link Vertex}
+     *
+     * @return ID for the {@link Vertex}
+     */
     public int getVertexID() {
         return objectID;
     }
 
+    /**
+     * Returns the corresponding {@link Attribute}
+     *
+     * @return {@link Attribute}
+     */
     public Optional<Attribute> getAttribute() {
         return Optional.ofNullable(attribute);
     }
 
+    /**
+     * Get ID from the corresponding {@link Attribute}
+     *
+     * @return ID for the {@link Attribute}
+     */
     public int getAttributeID() {
         return attributeID;
     }
 
+    /**
+     * Get the value
+     *
+     * @return value
+     */
     public String getValue() {
         return value;
     }
 
+    /**
+     * <p>Turns this mapping into a string with all associated elements.</p>
+     * <p>Has the following form: '{%d | %s | [%s] | [%s] | %s}'</p>
+     */
     public String toString() {
-        String formatable = "%d | %s | [%s] | [%s] | %s";
+        String formatable = "{%d | %s | [%s] | [%s] | %s}";
         return String
             .format(formatable, getId(), getType(), getVertex(), getAttribute(), getValue());
     }

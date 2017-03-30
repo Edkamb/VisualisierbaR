@@ -9,19 +9,42 @@ public enum Direction implements Element {
     private String name;
     private int numericalValue;
 
+    /**
+     * Creates a Direction element with a name and a numerical value
+     *
+     * @param name Name for the direction
+     * @param numericalValue value for the directions (as used in the database)
+     */
     Direction(String name, int numericalValue) {
         this.name = name;
         this.numericalValue = numericalValue;
     }
 
+    /**
+     * Get the name for the direction
+     *
+     * @return Name
+     */
     String getName() {
         return name;
     }
 
+    /**
+     * Get the numerical value for this direction
+     *
+     * @return Numerical value
+     */
     int numericalValue() {
         return numericalValue;
     }
 
+    /**
+     * Return a direction based on the numerical value
+     *
+     * @param index
+     * @return Corresponding direction, if found, null otherwise
+     * @throws IllegalArgumentException if numericalValue is larger than the enum
+     */
     public static Direction get(int index) {
         if (index > Direction.values().length) {
             throw new IllegalArgumentException(
@@ -37,6 +60,9 @@ public enum Direction implements Element {
         return null;
     }
 
+    /**
+     * Prints the name of the direction (Form: {{name}})
+     */
     @Override
     public String toString() {
         String formatable = "{%s}";

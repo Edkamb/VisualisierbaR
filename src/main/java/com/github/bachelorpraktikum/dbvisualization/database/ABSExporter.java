@@ -30,10 +30,23 @@ public class ABSExporter {
         return String.format("Unit run() {%s%s%s%s}", lineSep, "%s", "%s", lineSep);
     }
 
+    /**
+     * Return all elements which are seperated by a newline ({@link System#lineSeparator}).
+     * All elements will be indented with 4 spaces.
+     *
+     * @return All elements on seperate lines and indented with 4 spaces.
+     */
     private String getLineSeperatedElements() {
         return getLineSeperatedElements(4);
     }
 
+    /**
+     * Return all elements which are seperated by a newline ({@link System#lineSeparator}).
+     * All elements will be indented with <code>spacesBeforeLine</code> spaces.
+     *
+     * @return All elements on seperate lines and indented with <code>spacesBeforeLine</code>
+     * spaces.
+     */
     private String getLineSeperatedElements(int spacesBeforeLine) {
         StringJoiner lineSeperatorJoiner = new StringJoiner(System.lineSeparator());
         elements.forEach(absExportable -> lineSeperatorJoiner
@@ -51,6 +64,13 @@ public class ABSExporter {
         return lineSeperatorJoiner.toString();
     }
 
+    /**
+     * Left pad spaces.
+     *
+     * @param string String to pad
+     * @param number Number of spaces to pad
+     * @return Left padded string
+     */
     private String leftPad(String string, int number) {
         if (number <= 0) {
             return string;
@@ -86,6 +106,11 @@ public class ABSExporter {
         return exportPath;
     }
 
+    /**
+     * Set the path the ABS-File should be exported to.
+     *
+     * @param exportPath Path to export the ABS-File to
+     */
     public void setExportPath(String exportPath) {
         this.exportPath = exportPath;
     }
@@ -134,6 +159,12 @@ public class ABSExporter {
         return true;
     }
 
+    /**
+     * Delete the file
+     *
+     * @param file File to delete
+     * @return Success status of the deletion
+     */
     private boolean deleteFile(File file) {
         Logger.getLogger(getClass().getName())
             .info(String.format("Deleting %s", file.getAbsolutePath()));
@@ -150,10 +181,22 @@ public class ABSExporter {
         outputStream.write(getExportString().getBytes());
     }
 
+    /**
+     * Return all elements which will be exported. This does not include children elements.
+     *
+     * @return All elements that will be exported (without children elements)
+     */
     public List<ABSExportable> getElements() {
         return elements;
     }
 
+    /**
+     * Returns the string which will be exported. Constructed via {@link
+     * #getEnclosingFunctionFormattable()}, {@link #getLineSeperatedElements()} and {@link
+     * #getExtra()}.
+     *
+     * @return String which will be written to the ABS-file
+     */
     private String getExportString() {
         return String
             .format(getEnclosingFunctionFormattable(), getLineSeperatedElements(), getExtra());
