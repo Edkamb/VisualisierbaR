@@ -97,7 +97,7 @@ public class ABSExporter {
         }
 
         String filename = ConfigKey.absExportPath.get();
-        if (filename == null) {
+        if (filename == null || filename.trim().isEmpty()) {
             filename = DEFAULT_FILENAME;
         }
 
