@@ -5,10 +5,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Vertex implements ABSExportable, Element {
 
@@ -194,7 +196,31 @@ public class Vertex implements ABSExportable, Element {
 
     @Override
     public List<String> exportChildren() {
-        return attributes.stream().map(Attribute::export).collect(Collectors.toList());
+        List<String> export = new LinkedList<>();
+
+        Pattern nameRegex = Pattern.compile("[^ ]* (?<name>.*) *=");
+        List<String> attrNames = new LinkedList<>();
+        for (Attribute attribute : attributes) {
+            export.add(attribute.export());
+
+            for (String attrExport : attribute.export().split(System.lineSeparator())) {
+                if (attrExport.isEmpty()) {
+                    continue;
+                }
+                Matcher m = nameRegex.matcher(attrExport);
+                if (m.find()) {
+                    String name = m.group("name");
+                    attrNames.add(name);
+                }
+            }
+        }
+
+        String formatableIn = String.format("%s.addElement(%s);", getAbsName(), "%s");
+        for (String name : attrNames) {
+            export.add(String.format(formatableIn, name.trim()));
+        }
+
+        return export;
     }
 
     @Override
