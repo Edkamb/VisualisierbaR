@@ -14,7 +14,7 @@ import java.util.logging.Logger;
 public class ABSExporter {
 
     private final List<ABSExportable> elements;
-    private final String DEFAULT_FILENAME = "Run.abs";
+    private static final String DEFAULT_FILENAME = "Run.abs";
     private String exportPath;
 
     ABSExporter() {
