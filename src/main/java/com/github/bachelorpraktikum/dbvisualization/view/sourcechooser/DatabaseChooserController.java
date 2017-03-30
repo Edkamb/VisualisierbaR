@@ -1,6 +1,5 @@
 package com.github.bachelorpraktikum.dbvisualization.view.sourcechooser;
 
-import com.github.bachelorpraktikum.dbvisualization.config.ConfigFile;
 import com.github.bachelorpraktikum.dbvisualization.config.ConfigKey;
 import com.github.bachelorpraktikum.dbvisualization.database.Database;
 import com.github.bachelorpraktikum.dbvisualization.database.DatabaseUser;
@@ -27,7 +26,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import javax.annotation.Nonnull;
 
 public class DatabaseChooserController implements SourceChooser<DataSource> {
@@ -91,12 +89,9 @@ public class DatabaseChooserController implements SourceChooser<DataSource> {
     }
 
     private void loadInitialValues() {
-        String uriConfigKey = ConfigKey.initialDatabaseUri.getKey();
-        String portConfigKey = ConfigKey.initialDatabasePort.getKey();
-        String nameConfigKey = ConfigKey.initialDatabaseName.getKey();
-        String uriString = ConfigFile.getInstance().getProperty(uriConfigKey);
-        String portString = ConfigFile.getInstance().getProperty(portConfigKey);
-        String nameString = ConfigFile.getInstance().getProperty(nameConfigKey);
+        String uriString = ConfigKey.initialDatabaseUri.get();
+        String portString = ConfigKey.initialDatabasePort.get();
+        String nameString = ConfigKey.initialDatabaseName.get();
         if (uriString != null && portString != null && nameString != null) {
             int port = DEFAULT_SQL_PORT;
             try {
@@ -218,14 +213,11 @@ public class DatabaseChooserController implements SourceChooser<DataSource> {
     }
 
     private void setInitialUri(@Nonnull URI uri) {
-        String uriKey = ConfigKey.initialDatabaseUri.getKey();
-        String portKey = ConfigKey.initialDatabasePort.getKey();
-        String nameKey = ConfigKey.initialDatabaseName.getKey();
         if (uri.getHost() != null) {
-            ConfigFile.getInstance().setProperty(uriKey, uri.getHost());
+            ConfigKey.initialDatabaseUri.set(uri.getHost());
         }
-        ConfigFile.getInstance().setProperty(portKey, String.valueOf(uri.getPort()));
-        ConfigFile.getInstance().setProperty(nameKey, stripLeadingSlash(uri.getPath()));
+        ConfigKey.initialDatabasePort.set(String.valueOf(uri.getPort()));
+        ConfigKey.initialDatabaseName.set(stripLeadingSlash(uri.getPath()));
     }
 
 
