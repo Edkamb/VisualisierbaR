@@ -177,8 +177,7 @@ public class DatabaseChooserController implements SourceChooser<DataSource> {
 
     private Database createDatabase() {
         Stage stage = ((Stage) rootPaneDatabase.getScene().getWindow());
-        stage.onCloseRequestProperty()
-            .addListener((observable, oldValue, newValue) -> closed = true);
+        stage.setOnCloseRequest(event -> closed = true);
 
         Database database = null;
         DatabaseUser user = null;
