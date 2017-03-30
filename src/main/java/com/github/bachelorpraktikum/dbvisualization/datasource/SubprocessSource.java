@@ -17,6 +17,10 @@ public class SubprocessSource extends InputParserSource {
 
     private Process process;
 
+    /**
+     * {@link #init(String, String...)} has to be called if this constructor is used to execute the
+     * process
+     */
     SubprocessSource() {
         process = null;
     }
