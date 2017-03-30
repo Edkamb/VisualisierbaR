@@ -11,6 +11,7 @@ import com.github.bachelorpraktikum.dbvisualization.database.model.Tables;
 import com.github.bachelorpraktikum.dbvisualization.database.model.Vertex;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import com.zaxxer.hikari.pool.HikariPool.PoolInitializationException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
@@ -71,8 +72,7 @@ public class Database implements AutoCloseable {
     /**
      * Try to connect to the database
      *
-     * @throws com.zaxxer.hikari.pool.HikariPool.PoolInitializationException if the connection
-     * wasn't successful.
+     * @throws PoolInitializationException if the connection wasn't successful.
      */
     private void init() {
         HikariConfig config = new HikariConfig();
@@ -175,9 +175,8 @@ public class Database implements AutoCloseable {
      * Tests whether the database can be accessed over the given URI with the provided {@link
      * DatabaseUser database user}
      *
-     * @return Whether a connection can be made
+     * @return Whether a connection can be established
      */
-
     public boolean testConnection() {
         try {
             return dataSource.getConnection().isValid(CONNECTION_TIMEOUT);
