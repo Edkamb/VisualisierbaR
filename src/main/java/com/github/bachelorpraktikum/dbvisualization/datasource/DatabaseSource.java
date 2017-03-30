@@ -83,4 +83,10 @@ public class DatabaseSource extends SubprocessSource {
 
         return absToolchain;
     }
+
+    @Override
+    public void close() throws IOException {
+        super.close();
+        log.info("Successfully closed Database-Source");
+    }
 }
