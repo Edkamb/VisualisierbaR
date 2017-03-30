@@ -183,7 +183,7 @@ public class DatabaseChooserController implements SourceChooser<DataSource> {
         Stage stage = ((Stage) rootPaneDatabase.getScene().getWindow());
         Database database = createDatabase(stage);
         if (database == null) {
-            throw new IllegalStateException(
+            throw new IOException(
                 "Session was closed by user before a valid connection could be established. Can't read from database with current configuration.");
         }
         return new DatabaseSource(database, null);
