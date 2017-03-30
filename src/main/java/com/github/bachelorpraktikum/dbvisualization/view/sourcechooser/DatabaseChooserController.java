@@ -19,10 +19,15 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.value.ObservableBooleanValue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javax.annotation.Nonnull;
 
 public class DatabaseChooserController implements SourceChooser<DataSource> {
@@ -224,17 +229,25 @@ public class DatabaseChooserController implements SourceChooser<DataSource> {
 
 
     private DatabaseUser showLoginWindow() {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("LoginWindow.fxml"));
+        Dialog dia = new Dialog<>();
+        dia.initModality(Modality.APPLICATION_MODAL);
+        final FXMLLoader loader = new FXMLLoader(getClass().getResource("LoginWindow.fxml"));
         loader.setResources(ResourceBundle.getBundle("bundles.localization"));
+        Parent root = null;
         try {
-            loader.load();
+            root = loader.load();
         } catch (IOException e) {
-            // This should never happen, because the location is set (see load function)
-            return null;
+            e.printStackTrace();
         }
+        final Scene scene = new Scene(root);
+        Stage stage = new Stage();
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.initStyle(StageStyle.UNDECORATED);
+        stage.setScene(scene);
+        stage.showAndWait();
 
         LoginController controller = loader.getController();
-        controller.show();
+        // controller.show();
         if (controller.manuallyClosed()) {
             return null;
         }
