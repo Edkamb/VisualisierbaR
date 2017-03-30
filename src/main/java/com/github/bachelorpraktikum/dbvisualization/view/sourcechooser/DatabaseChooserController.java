@@ -10,6 +10,7 @@ import com.zaxxer.hikari.pool.HikariPool.PoolInitializationException;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.logging.Logger;
 import javafx.beans.property.IntegerProperty;
@@ -110,8 +111,11 @@ public class DatabaseChooserController implements SourceChooser<DataSource> {
             portField.setText(String.valueOf(uri.getPort()));
         }
 
-        if (portField.getText().trim().isEmpty()) {
-            portField.setText(String.valueOf(DEFAULT_SQL_PORT));
+        if (portField.getText().trim().isEmpty() || Objects.equals(portField.getText(), "-1")) {
+            if (portString == null || portString.trim().isEmpty()) {
+                portString = String.valueOf(DEFAULT_SQL_PORT);
+            }
+            portField.setText(String.valueOf(portString));
         }
     }
 
