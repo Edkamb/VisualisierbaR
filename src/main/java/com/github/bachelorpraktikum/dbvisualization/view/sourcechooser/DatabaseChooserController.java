@@ -247,7 +247,6 @@ public class DatabaseChooserController implements SourceChooser<DataSource> {
         stage.showAndWait();
 
         LoginController controller = loader.getController();
-        // controller.show();
         if (controller.manuallyClosed()) {
             return null;
         }
