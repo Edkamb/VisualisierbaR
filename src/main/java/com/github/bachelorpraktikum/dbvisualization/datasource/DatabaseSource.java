@@ -12,7 +12,7 @@ public class DatabaseSource extends SubprocessSource {
 
     private static final Logger log = Logger.getLogger(DatabaseSource.class.getName());
 
-    private final String ABS_COMPILER_BINARY_NAME = "absc";
+    private static final String ABS_COMPILER_BINARY_NAME = "absc";
 
     /**
      * Creates a {@link Database}-Source that reads info from the database, compiles the ABS file
