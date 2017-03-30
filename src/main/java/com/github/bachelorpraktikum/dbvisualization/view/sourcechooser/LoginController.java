@@ -14,6 +14,8 @@ import javafx.stage.Stage;
 public class LoginController {
 
     @FXML
+    private Button closeButton;
+    @FXML
     private Button openButton;
     @FXML
     private BorderPane rootPane;
@@ -24,6 +26,7 @@ public class LoginController {
 
     private ObjectProperty<String> userProperty;
     private ObjectProperty<String> passwordProperty;
+    private boolean manuallyClosed;
 
     @FXML
     public void initialize() {
@@ -44,7 +47,8 @@ public class LoginController {
             }
         });
 
-        openButton.setOnAction(event -> close());
+        openButton.setOnAction(event -> close(false));
+        closeButton.setOnAction(event -> close(true));
     }
 
     Button getOpenButton() {
@@ -73,7 +77,12 @@ public class LoginController {
         stage.showAndWait();
     }
 
-    public void close() {
+    public void close(boolean manualClose) {
+        manuallyClosed = manualClose;
         ((Stage) rootPane.getScene().getWindow()).close();
+    }
+
+    boolean manuallyClosed() {
+        return manuallyClosed;
     }
 }
