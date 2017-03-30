@@ -83,6 +83,6 @@ public class LoginController {
     }
 
     boolean manuallyClosed() {
-        return manuallyClosed;
+        return manuallyClosed || openButton.isDisabled();
     }
 }

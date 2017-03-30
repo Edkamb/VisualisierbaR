@@ -238,7 +238,6 @@ public class DatabaseChooserController implements SourceChooser<DataSource> {
         final Scene scene = new Scene(root);
         Stage stage = new Stage();
         stage.initModality(Modality.APPLICATION_MODAL);
-        stage.initStyle(StageStyle.UNDECORATED);
         stage.setScene(scene);
         stage.showAndWait();
 
