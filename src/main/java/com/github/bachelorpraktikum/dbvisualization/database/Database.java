@@ -96,8 +96,8 @@ public class Database implements AutoCloseable {
     private void getAll() {
         getAttributes();
         getObjectAttributes();
-        exportableElements.addAll(getEdges());
         exportableElements.addAll(getVertices());
+        exportableElements.addAll(getEdges());
         exportableElements.addAll(getBetriebsstellen());
         getNeighbors();
         getObjectObjectAtributes();
