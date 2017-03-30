@@ -229,17 +229,12 @@ public class DatabaseChooserController implements SourceChooser<DataSource> {
     }
 
 
-    private DatabaseUser showLoginWindow() {
+    private DatabaseUser showLoginWindow() throws IOException {
         Dialog dia = new Dialog<>();
         dia.initModality(Modality.APPLICATION_MODAL);
         final FXMLLoader loader = new FXMLLoader(getClass().getResource("LoginWindow.fxml"));
         loader.setResources(ResourceBundle.getBundle("bundles.localization"));
-        Parent root = null;
-        try {
-            root = loader.load();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        Parent root = loader.load();
         final Scene scene = new Scene(root);
         Stage stage = new Stage();
         stage.initModality(Modality.APPLICATION_MODAL);
