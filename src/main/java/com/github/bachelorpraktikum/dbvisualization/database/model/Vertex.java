@@ -80,6 +80,43 @@ public class Vertex implements ABSExportable, Element {
         return Optional.ofNullable(betriebsstelle);
     }
 
+    /**
+     * Checks whether the vertex is part of a <tt>WEICHEN_PUNKT</tt> by checking its attributes
+     *
+     * @return Whether the vertex belongs to a <tt>WEICHEN_PUNKT</tt>
+     */
+    public boolean isWeiche() {
+        for (Attribute attribute : attributes) {
+            if (attribute.getId() == FixAttributeValues.WEICHEN_PUNKT.getId()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Returns all 3 vertices for the <tt>WeichenPunkt</tt>
+     *
+     * @return 3 vertices for the WeichenPunkt
+     * @throws IllegalStateException if no 3 vertices for the <tt>WeichenPunkt</tt> were found
+     */
+    public List<Vertex> getWeichenPunkte() {
+        List<Vertex> vertices = new LinkedList<>();
+        vertices.add(this);
+        for (Attribute attribute : attributes) {
+            if (attribute.getId() == FixAttributeValues.WEICHEN_PUNKT.getId()
+                && attribute.getVertex().getId() != getId()) {
+                vertices.add(attribute.getVertex());
+            }
+        }
+
+        if (vertices.size() != 3) {
+            throw new IllegalStateException("WEICHEN_PUNKT has to have 3 vertices.");
+        }
+        return vertices;
+    }
+
     public void setBetriebsstelle(Betriebsstelle bst) {
         betriebsstelle = bst;
     }
