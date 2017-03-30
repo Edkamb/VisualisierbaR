@@ -176,6 +176,10 @@ public class DatabaseChooserController implements SourceChooser<DataSource> {
     @Override
     public DataSource getResource() throws IOException {
         Database database = createDatabase();
+        if (database == null) {
+            throw new IllegalStateException(
+                "Session was closed by user before a valid connection could be established. Can't read from database with current configuration.");
+        }
         return new DatabaseSource(database, null);
     }
 
