@@ -193,7 +193,7 @@ public class DatabaseChooserController implements SourceChooser<DataSource> {
                 Logger.getLogger(getClass().getName())
                     .info(String.format("Couldn't connect to db: %s", e.getCause()));
             } finally {
-                if (database == null) {
+                if (database == null && !closed) {
                     user = showLoginWindow();
                 }
             }
