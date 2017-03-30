@@ -182,14 +182,11 @@ public class DatabaseChooserController implements SourceChooser<DataSource> {
     public DataSource getResource() throws IOException {
         Stage stage = ((Stage) rootPaneDatabase.getScene().getWindow());
         Database database = createDatabase(stage);
-        if (database == null) {
-            throw new IOException(
-                "Session was closed by user before a valid connection could be established. Can't read from database with current configuration.");
-        }
         return new DatabaseSource(database, null);
     }
 
-    private Database createDatabase(Stage stage) {
+    @Nonnull
+    private Database createDatabase(Stage stage) throws IOException {
         stage.setOnHiding(event -> closed = true);
 
         Database database = null;
@@ -211,6 +208,10 @@ public class DatabaseChooserController implements SourceChooser<DataSource> {
                     loginWasClosed = user == null;
                 }
             }
+        }
+        if (database == null) {
+            throw new IOException(
+                "Session was closed by user before a valid connection could be established. Can't read from database with current configuration.");
         }
 
         return database;
